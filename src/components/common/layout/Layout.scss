@@ -8,10 +8,14 @@
 	transition: opacity 1s, transform 1s;
 
 	h1 {
-		font-size: 5rem;
+		font-size: 0;
 		font-weight: normal;
 		opacity: 0.5;
 		margin-bottom: 10px;
+
+		span {
+			font-size: 5rem;
+		}
 	}
 
 	.bar {
