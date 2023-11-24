@@ -8,6 +8,8 @@ import Gallery from './components/sub/gallery/Gallery';
 import Members from './components/sub/members/Members';
 import Youtube from './components/sub/youtube/Youtube';
 import { Route } from 'react-router-dom';
+import './globalStyles/Variables.scss';
+import './globalStyles/Reset.scss';
 
 function App() {
 	return (

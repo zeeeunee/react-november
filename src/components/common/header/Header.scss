@@ -1,0 +1,22 @@
+.Header {
+	width: 70vw;
+	padding: 30px 5px;
+	border-bottom: 1px solid #aaa;
+	display: flex;
+	justify-content: space-between;
+	margin: 0 auto;
+
+	h1 {
+		font-size: var(--titSize2);
+	}
+
+	ul {
+		display: flex;
+		gap: 50px;
+		align-items: center;
+
+		a.on {
+			color: var(--pointColor);
+		}
+	}
+}
