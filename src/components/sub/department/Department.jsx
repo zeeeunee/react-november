@@ -3,7 +3,7 @@ import './Department.scss';
 
 export default function Department() {
 	return (
-		<Layout>
+		<Layout title={'Department'}>
 			<p>Department전용 컨텐츠</p>
 		</Layout>
 	);
