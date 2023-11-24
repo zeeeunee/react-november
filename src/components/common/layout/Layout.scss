@@ -2,6 +2,10 @@
 	width: 70vw;
 	margin: 100px auto;
 	min-height: 60vh;
+	opacity: 0;
+	transform-origin: left top;
+	transform: translateY(200px);
+	transition: opacity 1s, transform 1s;
 
 	h1 {
 		font-size: 5rem;
@@ -15,5 +19,10 @@
 		height: 1px;
 		background: #111;
 		opacity: 0.7;
+	}
+
+	&.on {
+		opacity: 1;
+		transform: translateY(0px);
 	}
 }
