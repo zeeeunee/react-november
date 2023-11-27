@@ -9,8 +9,10 @@ export default function Layout({ children, title }) {
 	const splitText = useSplitText();
 
 	useEffect(() => {
-		splitText(refTitle.current, title);
-		refFrame.current.classList.add('on');
+		splitText(refTitle.current, title, 0.7, 0.1);
+		setTimeout(() => {
+			refFrame.current.classList.add('on');
+		}, 300); //0.3초 정도의 시간이 지나서 span이 만들어지고 on이 붙고 transition 효과가 일어나야 되니까 transition효과는 0.3초보다느린 0.7초
 	}, []);
 
 	return (
