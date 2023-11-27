@@ -10,7 +10,7 @@ export function useSplitText() {
 		let count = 0;
 
 		for (let letter of txt) {
-			tags += `<span style='transition-duration:${speed}s;transition-delay:${interval * count}s'>${letter}</span>`;
+			tags += `<span style='transition-duration:${speed}s;transition-delay:${interval * count}s; display:inline-block;'>${letter}</span>`;
 			count++;
 		}
 		ref.innerHTML = tags;
