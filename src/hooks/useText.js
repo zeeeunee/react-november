@@ -18,6 +18,9 @@ export function useSplitText() {
 }
 
 export function useCustomText(type) {
+	const toUpperText = (txt) => {
+		return txt.charAt(0).toUpperCase() + txt.slice(1);
+	};
 	if (type === 'title') {
 		return (txt) => {
 			return txt.charAt(0).toUpperCase() + txt.slice(1);
@@ -36,7 +39,7 @@ export function useCustomText(type) {
 		return (txt, spc) => {
 			const resultText = txt //원본텍스트를 가져옴
 				.split(spc) //split으로 두번째 인수로 받은 구분자로 분리해서 배열로 반환
-				.map((data) => data.charAt(0).toUpperCase() + data.slice(1)) //배열값을 map으로 반복돌며 첫글자만 대문자로 변환해서 새로운 배열로 반환
+				.map((data) => toUpperText(data)) //배열값을 map으로 반복돌며 첫글자만 대문자로 변환해서 새로운 배열로 반환
 				.join(' '); //새롭게 반환된 배열을 다시 빈칸을 구분자로 해서 하나의 문자열로 이어붙여줌
 			return resultText; //위에서 만들어진 문자값을 최종적으로 반환
 		};
