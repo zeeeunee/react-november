@@ -25,6 +25,10 @@ export default function Department() {
 	const [forward, backward] = test2.split('-');
 	console.log(changeTitle(forward) + ' ' + changeTitle(backward));
 
+	const combinedTitle = useCustomText('combined');
+	const test3 = 'our-members-score';
+	console.log(combinedTitle(test3, '-'));
+
 	const fetchDepartment = () => {
 		fetch(`${path.current}/DB/department.json`)
 			.then((data) => data.json())
