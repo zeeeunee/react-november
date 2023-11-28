@@ -15,6 +15,10 @@ export default function Department() {
 	const path = useRef(process.env.PUBLIC_URL); //public폴더까지의 경로를 구하는 구문
 	const changetitle = useCustomText('title');
 
+	const text1 = 'abcdef';
+	const shortenText = useCustomText('shorten');
+	console.log(shortenText(text1, 3));
+
 	const fetchDepartment = () => {
 		fetch(`${path.current}/DB/department.json`)
 			.then((data) => data.json())

@@ -23,4 +23,13 @@ export function useCustomText(type) {
 			return txt.charAt(0).toUpperCase() + txt.slice(1);
 		};
 	}
+	if (type === 'shorten') {
+		return (txt, len = 100) => {
+			if (txt.length > len) {
+				return txt.slice(0, len) + '...';
+			} else {
+				return txt;
+			}
+		};
+	}
 }
