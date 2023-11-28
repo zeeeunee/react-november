@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Department.scss';
+import { useCustomText } from '../../../hooks/useText';
 
 export default function Department() {
 	//const test = 'abcdef';
@@ -12,6 +13,8 @@ export default function Department() {
 	const [MemberTit, setMemberTit] = useState('');
 	const [MemberData, setMemberData] = useState([]);
 	const path = useRef(process.env.PUBLIC_URL); //public폴더까지의 경로를 구하는 구문
+	const changetitle = useCustomText('title');
+
 	const fetchDepartment = () => {
 		fetch(`${path.current}/DB/department.json`)
 			.then((data) => data.json())
@@ -29,7 +32,7 @@ export default function Department() {
 	return (
 		<Layout title={'Department'}>
 			<section className='memberBox'>
-				<h2>{`${MemberTit.charAt(0).toUpperCase() + MemberTit.slice(1)}`}</h2>
+				<h2>{changetitle(MemberTit)}</h2>
 				{MemberData.map((member, idx) => {
 					return (
 						<article key={member + idx}>

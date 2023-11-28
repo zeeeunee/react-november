@@ -16,3 +16,11 @@ export function useSplitText() {
 		ref.innerHTML = tags;
 	};
 }
+
+export function useCustomText(type) {
+	if (type === 'title') {
+		return (txt) => {
+			return txt.charAt(0).toUpperCase() + txt.slice(1);
+		};
+	}
+}
