@@ -4,12 +4,6 @@ import './Department.scss';
 import { useCustomText } from '../../../hooks/useText';
 
 export default function Department() {
-	//const test = 'abcdef';
-	//console.log(test.charAt(0)); //a
-	//console.log(test.slice(1, 3)); //bc
-	//console.log(test.slice(1)); //bcdef
-	//console.log(test.toUpperCase());
-
 	const [MemberTit, setMemberTit] = useState('');
 	const [MemberData, setMemberData] = useState([]);
 	const path = useRef(process.env.PUBLIC_URL); //public폴더까지의 경로를 구하는 구문
@@ -43,19 +37,25 @@ export default function Department() {
 	useEffect(() => {
 		fetchDepartment();
 	}, []);
+
 	return (
 		<Layout title={'Department'}>
 			<section className='memberBox'>
-				<h2>{changeTitle(MemberTit)}</h2>
-				{MemberData.map((member, idx) => {
-					return (
-						<article key={member + idx}>
-							<img src={`${path.current}/img/${member.pic}`} alt={member.name} />
-							<h2>{member.name}</h2>
-							<p>{member.position}</p>
-						</article>
-					);
-				})}
+				<h2>{combinedTitle(MemberTit)}</h2>
+
+				<div className='con'>
+					{MemberData.map((member, idx) => {
+						return (
+							<article key={member + idx}>
+								<div className='pic'>
+									<img src={`${path.current}/img/${member.pic}`} alt={member.name} />
+								</div>
+								<h3>{member.name}</h3>
+								<p>{member.position}</p>
+							</article>
+						);
+					})}
+				</div>
 			</section>
 		</Layout>
 	);

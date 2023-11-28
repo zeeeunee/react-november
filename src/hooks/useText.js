@@ -36,12 +36,14 @@ export function useCustomText(type) {
 		};
 	}
 	if (type === 'combined') {
-		return (txt, spc) => {
-			const resultText = txt //원본텍스트를 가져옴
-				.split(spc) //split으로 두번째 인수로 받은 구분자로 분리해서 배열로 반환
-				.map((data) => toUpperText(data)) //배열값을 map으로 반복돌며 첫글자만 대문자로 변환해서 새로운 배열로 반환
-				.join(' '); //새롭게 반환된 배열을 다시 빈칸을 구분자로 해서 하나의 문자열로 이어붙여줌
-			return resultText; //위에서 만들어진 문자값을 최종적으로 반환
+		//regEx (regular expression: 정규표현식) 문자열의 패턴별로 특정 기능 수행식
+		// /정규표현식/
+		return (txt) => {
+			const resultText = txt
+				.split(/-|_|\+/) //인수로 들어가는 특수문자가 -,_,+일때는 해당 구분자로 문자를 분리함 (예약어 문자열을 앞에 \붙여서 처리)
+				.map((data) => toUpperText(data))
+				.join(' ');
+			return resultText;
 		};
 	}
 }
