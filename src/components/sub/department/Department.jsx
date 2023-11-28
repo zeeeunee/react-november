@@ -13,11 +13,17 @@ export default function Department() {
 	const [MemberTit, setMemberTit] = useState('');
 	const [MemberData, setMemberData] = useState([]);
 	const path = useRef(process.env.PUBLIC_URL); //public폴더까지의 경로를 구하는 구문
-	const changetitle = useCustomText('title');
+	const changeTitle = useCustomText('title');
 
-	const text1 = 'abcdef';
+	const test1 = 'abcdef';
 	const shortenText = useCustomText('shorten');
-	console.log(shortenText(text1, 3));
+	console.log(shortenText(test1, 3));
+
+	const test2 = 'our-members';
+	//split : 구분자를 기준점으로 문자를 나눠서 배열로 반환
+	console.log(test2.split('-')); //['our','members']
+	const [forward, backward] = test2.split('-');
+	console.log(changeTitle(forward) + ' ' + changeTitle(backward));
 
 	const fetchDepartment = () => {
 		fetch(`${path.current}/DB/department.json`)
@@ -36,7 +42,7 @@ export default function Department() {
 	return (
 		<Layout title={'Department'}>
 			<section className='memberBox'>
-				<h2>{changetitle(MemberTit)}</h2>
+				<h2>{changeTitle(MemberTit)}</h2>
 				{MemberData.map((member, idx) => {
 					return (
 						<article key={member + idx}>
