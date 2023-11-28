@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Department.scss';
 
@@ -11,10 +11,9 @@ export default function Department() {
 
 	const [MemberTit, setMemberTit] = useState('');
 	const [MemberData, setMemberData] = useState([]);
-	const path = process.env.PUBLIC_URL; //public폴더까지의 경로를 구하는 구문
-
+	const path = useRef(process.env.PUBLIC_URL); //public폴더까지의 경로를 구하는 구문
 	const fetchDepartment = () => {
-		fetch(`${path}/DB/department.json`)
+		fetch(`${path.current}/DB/department.json`)
 			.then((data) => data.json())
 			.then((json) => {
 				console.log('key', Object.keys(json)[0]); //객체를 반복돌며 key값만 배열로 반환
@@ -34,7 +33,7 @@ export default function Department() {
 				{MemberData.map((member, idx) => {
 					return (
 						<article key={member + idx}>
-							<img src={`${path}/img/${member.pic}`} alt={member.name} />
+							<img src={`${path.current}/img/${member.pic}`} alt={member.name} />
 							<h2>{member.name}</h2>
 							<p>{member.position}</p>
 						</article>
