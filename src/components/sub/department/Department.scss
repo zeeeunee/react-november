@@ -4,6 +4,7 @@
 	.historyBox {
 		width: 100%;
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
 		margin-bottom: 200px;
 
@@ -41,6 +42,7 @@
 	.memberBox {
 		width: 100%;
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
 
 		h2 {
@@ -85,10 +87,29 @@
 	}
 }
 
-@media screen and (max-width: $tablet) {
+.tablet {
 	.Department {
 		.historyBox {
-			display: none;
+			h2 {
+				width: 100%;
+				margin-bottom: 60px;
+			}
+			.con {
+				width: 100%;
+				padding-left: 0;
+				border-left: none;
+			}
+		}
+		.memberBox {
+			h2 {
+				width: 100%;
+				margin-bottom: 60px;
+			}
+			.con {
+				width: 100%;
+				padding-left: 0;
+				border-left: none;
+			}
 		}
 	}
 }
