@@ -1,3 +1,5 @@
+@import '../../../globalStyles/Variables.scss';
+
 .Department {
 	.historyBox {
 		width: 100%;
@@ -82,3 +84,22 @@
 		}
 	}
 }
+
+@media screen and (max-width: $tablet) {
+	.Department {
+		.historyBox {
+			display: none;
+		}
+	}
+}
+
+/*
+	react style 관련 이슈
+	-리액트 컴포넌트 단위로 파일을 쪼개기 때문에 그에 따라 style.scss파일도 많아짐
+	-효율적인 유지보수를 위해서 공통으로 관리될 값들을 Variables.scss에 css변수로 관리함
+	-이떄 scss변수가 아닌 css변수를 쓰는 이유는 scss변수는 sass loader에 의해서 초기 컴파일될떄의 값이 static하게 고정됨
+	-리액트에서 이벤트 발생시 scss변수는 변수의 값을 실시간 변경이 불가능
+	-스타일의 속성이 아닌 브라우저가 인지해야 되는 미디어쿼리 구문의 디바이스폭의 경우는 css변수가 처리안됨
+	-미디어쿼리 디바이스폭 구문만 컴파일시 브라우저가 해석할 수 있는 변수로 적용
+	-이때 발생하는 문제점 - scss변수를 읽기 위해서는 각 scss파일에서 일일이 Variable.scss을 import처리해야되는 불편함
+*/
