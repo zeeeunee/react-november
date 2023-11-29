@@ -39,10 +39,26 @@
 			left: 2px;
 			transition: 0.7s;
 		}
+		.menuTolggle {
+			display: none;
+		}
 	}
 	.themeBox.dark {
 		.ball {
 			left: 36px;
+		}
+	}
+}
+
+.tablet,
+.mobile {
+	.Header {
+		width: 80vw;
+		ul {
+			display: none;
+		}
+		.menuTolggle {
+			display: block;
 		}
 	}
 }
