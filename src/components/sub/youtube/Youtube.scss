@@ -1,0 +1,113 @@
+.Youtube {
+	article {
+		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		border-bottom: 1px solid rgba(var(--baseColor-code), 0.2);
+		padding: 50px 0px;
+
+		&:nth-of-type(odd) {
+			flex-direction: row;
+		}
+		&:nth-of-type(even) {
+			flex-direction: row-reverse;
+
+			h2 {
+				text-align: right;
+			}
+		}
+
+		&:last-child {
+			border-bottom: none;
+		}
+
+		h2 {
+			width: 35%;
+			font-size: 1.8rem;
+			font-weight: normal;
+		}
+		.txt {
+			width: 30%;
+			display: flex;
+			flex-wrap: wrap;
+			align-content: space-between;
+			p {
+				font: 0.8rem/1.5 'arial';
+				opacity: 0.5;
+				//word-break:줄바꿈시 글자 자르는 기준
+				//normal:한글은 단어기준 영어는 글자기준 자르기 keep-all:단어기준 break-all:글자기준
+				word-break: break-all;
+				text-align: justify; //글자의 각 사이간격을 조절해서 양옆으로 정렬
+			}
+
+			.infoBox {
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				font: 0.8rem/1 'arial';
+				color: var(--pointColor);
+				margin-bottom: 20px;
+
+				span,
+				em {
+					color: inherit;
+				}
+			}
+		}
+		.pic {
+			width: 30%;
+			height: 10vmax;
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+	}
+}
+
+//tablet
+.tablet,
+.mobile {
+	.Youtube {
+		article {
+			padding: 40px 0px;
+
+			h2 {
+				width: 50%;
+				font-size: 1.7rem;
+			}
+			.txt {
+				width: 46%;
+				.info {
+					margin-top: 10px;
+				}
+			}
+			.pic {
+				width: 100%;
+				height: 20vmax;
+				margin-top: 20px;
+			}
+		}
+	}
+}
+
+//mobile
+.mobile {
+	.Youtube {
+		article {
+			padding: 30px 0px;
+
+			h2 {
+				width: 100%;
+				font-size: 1.2rem;
+				margin-bottom: 30px;
+			}
+			.txt {
+				width: 100%;
+			}
+		}
+	}
+}
