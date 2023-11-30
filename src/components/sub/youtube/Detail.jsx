@@ -20,12 +20,16 @@ export default function Detail() {
 	}, []);
 	return (
 		<Layout title={'Detail'}>
-			{/* Optional Chaing : 객체명?.property 해당객체에 값이 없을땐 무시하고 값이 있을때만 property접근 */}
-			<div className='videoBox'>
-				<iframe src={`https://www.youtube.com/embed/${YoutubeData?.resourceId.videoId}`} title={YoutubeData?.title}></iframe>
-			</div>
-			<h3>{YoutubeData?.title}</h3>
-			<p>{YoutubeData?.description}</p>
+			{YoutubeData && (
+				<article>
+					{/* Optional Chaing : 객체명?.property 해당객체에 값이 없을땐 무시하고 값이 있을때만 property접근 */}
+					<div className='videoBox'>
+						<iframe src={`https://www.youtube.com/embed/${YoutubeData?.resourceId.videoId}`} title={YoutubeData?.title}></iframe>
+					</div>
+					<h3>{YoutubeData?.title}</h3>
+					<p>{YoutubeData?.description}</p>
+				</article>
+			)}
 		</Layout>
 	);
 }
