@@ -42,7 +42,7 @@ export default function Header({ Dark, setDark, Toggle, setToggle }) {
 			<div className={`themeBox ${Dark && 'dark'}`} onClick={() => setDark(!Dark)}>
 				<div className='ball'></div>
 			</div>
-			<button className='menuTolggle' onClick={() => setToggle(!Toggle)}>
+			<button className='menuToggle' onClick={() => setToggle(!Toggle)}>
 				menu
 			</button>
 		</header>

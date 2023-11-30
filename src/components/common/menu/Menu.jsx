@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import './Menu.scss';
+import { useEffect } from 'react';
 
 export default function Menu({ setToggle }) {
 	const closeMenu = () => {
@@ -11,8 +11,8 @@ export default function Menu({ setToggle }) {
 		return () => window.removeEventListener('resize', closeMenu);
 	}, []);
 	return (
-		<aside class Name='Menu'>
-			Mobile Menu
+		<aside className='Menu'>
+			<h1>Mobile Menu</h1>
 		</aside>
 	);
 }
