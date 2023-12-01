@@ -8,7 +8,7 @@ export default function Detail() {
 	const [YoutubeData, setYoutubeData] = useState(null);
 
 	const fetchSingleData = async () => {
-		const api_key = 'AIzaSyBQ0OBVJR5LwVP7O1wFRSbfMbLCLvWRLnE';
+		const api_key = process.env.REACT_APP_YOUTUBE_API;
 		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&id=${id}`;
 
 		const data = await fetch(baseURL);

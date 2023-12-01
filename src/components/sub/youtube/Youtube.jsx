@@ -14,8 +14,8 @@ export default function Youtube() {
 	//조건2 - await문은 promise반환함수에만 지정가능
 
 	const fetchYoutube = async () => {
-		const api_key = 'AIzaSyBQ0OBVJR5LwVP7O1wFRSbfMbLCLvWRLnE';
-		const pid = 'PLM7Wu-2kzIQNKIs1hkRrlcXbwun3W_hWg';
+		const api_key = process.env.REACT_APP_YOUTUBE_API;
+		const pid = process.env.REACT_APP_YOUTUBE_LIST;
 		const num = 5;
 		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
 
