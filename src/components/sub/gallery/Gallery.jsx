@@ -25,31 +25,31 @@ export default function Gallery() {
 
 	return (
 		<Layout title={'Gallery'}>
-			<section>
-				<Masonry className={'frame'} options={{ transitionDuration: 0.5 }}>
-					{Pics.map((pic, idx) => {
-						return (
-							<article key={pic.id}>
-								<div className='pic'>
-									<img
-										src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`}
-										alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`}
-									/>
-								</div>
-								<h2>{pic.title}</h2>
+			<section className='frame'>
+				{/* <Masonry className={'frame'} options={{ transitionDuration: 0.5 }}> */}
+				{Pics.map((pic, idx) => {
+					return (
+						<article key={pic.id}>
+							<div className='pic'>
+								<img
+									src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`}
+									alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`}
+								/>
+							</div>
+							<h2>{pic.title}</h2>
 
-								<div className='profile'>
-									<img
-										src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
-										alt='사용자프로필이미지'
-										onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
-									/>
-									<span>{pic.owner}</span>
-								</div>
-							</article>
-						);
-					})}
-				</Masonry>
+							<div className='profile'>
+								<img
+									src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
+									alt='사용자프로필이미지'
+									onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
+								/>
+								<span>{pic.owner}</span>
+							</div>
+						</article>
+					);
+				})}
+				{/* </Masonry> */}
 			</section>
 		</Layout>
 	);
