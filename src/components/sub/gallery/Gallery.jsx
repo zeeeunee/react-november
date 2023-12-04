@@ -49,17 +49,20 @@ export default function Gallery() {
 		const baseURL = `https://www.flickr.com/services/rest/?&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1&method=`;
 		const method_interest = 'flickr.interestingness.getList';
 		const method_user = 'flickr.people.getPhotos';
+		const method_search = 'flickr.photos.search';
 
 		const interestURL = `${baseURL}${method_interest}`;
 
 		//3- userURL에는 user_id를 상수값이 아닌 호출시점에 전달된 opt객체의 id로 등록해서 URL생성
 		const userURL = `${baseURL}${method_user}&user_id=${opt.id}`;
+		const searchURL = `${baseURL}${method_search}&tags=${opt.keyword}`;
 
 		let url = '';
 
 		//4- 만들어진 URL로 데이터요청
 		opt.type === 'user' && (url = userURL);
 		opt.type === 'interest' && (url = interestURL);
+		opt.type === 'search' && (url = searchURL);
 
 		const data = await fetch(url);
 		const json = await data.json();
@@ -69,8 +72,9 @@ export default function Gallery() {
 
 	useEffect(() => {
 		//2-처음 컴포넌트 마운트시 타입을 user로 지정하고 id값으로 내 아이디등록
-		fetchFlickr({ type: 'user', id: myID.current });
+		//fetchFlickr({ type: 'user', id: myID.current });
 		//fetchFlickr({ type: 'interest' });
+		fetchFlickr({ type: 'search', keyworld: 'landscape' });
 	}, []);
 
 	return (
@@ -83,9 +87,9 @@ export default function Gallery() {
 					</button>
 				</nav>
 			</article>
-			<section className='frame'>
+			<section>
 				<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: 20 }}>
-					{Pics.map((pic, idx) => {
+					{Pics.map((pic) => {
 						return (
 							<article key={pic.id}>
 								<div className='pic'>
