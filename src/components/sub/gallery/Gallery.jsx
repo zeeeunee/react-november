@@ -65,7 +65,7 @@ export default function Gallery() {
 										alt='사용자프로필이미지'
 										onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
 									/>
-									<span>{pic.owner}</span>
+									<span onClick={() => fetchFlickr({ type: 'user', id: pic.owner })}>{pic.owner}</span>
 								</div>
 							</article>
 						);
