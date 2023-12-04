@@ -4,9 +4,17 @@ import './Gallery.scss';
 import Masonry from 'react-masonry-component';
 
 export default function Gallery() {
-	const [Pics, setPics] = useState([]);
-	//1-참조객체에 내 아이디값 등록
 	const myID = useRef('199697926@N08');
+	const refNav = useRef(null);
+	const [Pics, setPics] = useState([]);
+
+	const activateBtn = (e) => {
+		const btns = refNav.current.querySelectorAll('button');
+		btns.forEach((btn) => btn.classList.remove('on'));
+		e.target.classList.add('on');
+	};
+
+	//1-참조객체에 내 아이디값 등록
 
 	const fetchFlickr = async (opt) => {
 		const num = 100;
@@ -41,9 +49,22 @@ export default function Gallery() {
 	return (
 		<Layout title={'Gallery'}>
 			<article className='controls'>
-				<nav className='btnSet'>
-					<button onClick={() => fetchFlickr({ type: 'interest' })}>Interest Gallery</button>
-					<button className='on' onClick={() => fetchFlickr({ type: 'user', id: myID.current })}>
+				<nav className='btnSet' ref={refNav}>
+					<button
+						onClick={(e) => {
+							activateBtn(e);
+							fetchFlickr({ type: 'interest' });
+						}}
+					>
+						Interest Gallery
+					</button>
+					<button
+						className='on'
+						onClick={(e) => {
+							activateBtn(e);
+							fetchFlickr({ type: 'user', id: myID.current });
+						}}
+					>
 						My Gallery
 					</button>
 				</nav>
