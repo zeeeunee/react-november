@@ -4,7 +4,9 @@ import './Gallery.scss';
 import Masonry from 'react-masonry-component';
 
 export default function Gallery() {
+	console.log('re-render');
 	const myID = useRef('199697926@N08'); //1-참조객체에 내 아이디값 등록
+	const isUser = useRef(true);
 	const refNav = useRef(null);
 	const [Pics, setPics] = useState([]);
 
@@ -16,17 +18,20 @@ export default function Gallery() {
 
 	const handleInterest = (e) => {
 		if (e.target.classList.contains('on')) return;
+		isUser.current = false;
 		activateBtn(e);
 		fetchFlickr({ type: 'interest' });
 	};
 
 	const handleMine = (e) => {
-		if (e.target.classList.contains('on')) return;
+		if (e.target.classList.contains('on') || isUser.current) return;
 		activateBtn(e);
 		fetchFlickr({ type: 'user', id: myID.current });
 	};
 
 	const handleUser = (e) => {
+		if (isUser.current) return;
+		isUser.current = true;
 		activateBtn();
 		fetchFlickr({ type: 'user', id: e.target.innerText });
 	};
