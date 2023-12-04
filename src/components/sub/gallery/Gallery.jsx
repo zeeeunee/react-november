@@ -4,17 +4,32 @@ import './Gallery.scss';
 import Masonry from 'react-masonry-component';
 
 export default function Gallery() {
-	const myID = useRef('199697926@N08');
+	const myID = useRef('199697926@N08'); //1-참조객체에 내 아이디값 등록
 	const refNav = useRef(null);
 	const [Pics, setPics] = useState([]);
 
 	const activateBtn = (e) => {
 		const btns = refNav.current.querySelectorAll('button');
 		btns.forEach((btn) => btn.classList.remove('on'));
-		e.target.classList.add('on');
+		e && e.target.classList.add('on');
 	};
 
-	//1-참조객체에 내 아이디값 등록
+	const handleInterest = (e) => {
+		if (e.target.classList.contains('on')) return;
+		activateBtn(e);
+		fetchFlickr({ type: 'interest' });
+	};
+
+	const handleMine = (e) => {
+		if (e.target.classList.contains('on')) return;
+		activateBtn(e);
+		fetchFlickr({ type: 'user', id: myID.current });
+	};
+
+	const handleUser = (e) => {
+		activateBtn();
+		fetchFlickr({ type: 'user', id: e.target.innerText });
+	};
 
 	const fetchFlickr = async (opt) => {
 		const num = 100;
@@ -50,21 +65,8 @@ export default function Gallery() {
 		<Layout title={'Gallery'}>
 			<article className='controls'>
 				<nav className='btnSet' ref={refNav}>
-					<button
-						onClick={(e) => {
-							activateBtn(e);
-							fetchFlickr({ type: 'interest' });
-						}}
-					>
-						Interest Gallery
-					</button>
-					<button
-						className='on'
-						onClick={(e) => {
-							activateBtn(e);
-							fetchFlickr({ type: 'user', id: myID.current });
-						}}
-					>
+					<button onClick={handleInterest}>Interest Gallery</button>
+					<button className='on' onClick={handleMine}>
 						My Gallery
 					</button>
 				</nav>
@@ -88,7 +90,7 @@ export default function Gallery() {
 										alt='사용자프로필이미지'
 										onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
 									/>
-									<span onClick={() => fetchFlickr({ type: 'user', id: pic.owner })}>{pic.owner}</span>
+									<span onClick={handleUser}>{pic.owner}</span>
 								</div>
 							</article>
 						);
