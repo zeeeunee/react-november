@@ -81,6 +81,10 @@ export default function Gallery() {
 		const data = await fetch(url);
 		const json = await data.json();
 
+		if (json.photos.photo.length === 0) {
+			return alert('해당 검색어의 결과값이 없습니다.');
+		}
+
 		setPics(json.photos.photo);
 	};
 
