@@ -3,6 +3,7 @@ import Layout from '../../common/layout/Layout';
 import './Gallery.scss';
 import Masonry from 'react-masonry-component';
 import { IoSearch } from 'react-icons/io5';
+import Modal from '../../common/modal/Modal';
 
 export default function Gallery() {
 	console.log('re-render');
@@ -11,6 +12,7 @@ export default function Gallery() {
 	const isUser = useRef(myID.current); //isUser의 초기값을 내 아이디 문자값으로 등록
 	const refNav = useRef(null);
 	const [Pics, setPics] = useState([]);
+	const [Open, setOpen] = useState(false);
 
 	const activateBtn = (e) => {
 		const btns = refNav.current.querySelectorAll('button');
@@ -59,7 +61,7 @@ export default function Gallery() {
 	const fetchFlickr = async (opt) => {
 		console.log('fetching again...');
 		const num = 100;
-		const flickr_api = process.env.REACT_APP_YOUTUBE_FLICKR_API;
+		const flickr_api = process.env.REACT_APP_FLICKR_API;
 		const baseURL = `https://www.flickr.com/services/rest/?&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1&method=`;
 		const method_interest = 'flickr.interestingness.getList';
 		const method_user = 'flickr.people.getPhotos';
@@ -96,47 +98,59 @@ export default function Gallery() {
 	}, []);
 
 	return (
-		<Layout title={'Gallery'}>
-			<article className='controls'>
-				<nav className='btnSet' ref={refNav}>
-					<button onClick={handleInterest}>Interest Gallery</button>
-					<button className='on' onClick={handleMine}>
-						My Gallery
-					</button>
-				</nav>
-				<form onSubmit={handleSearch}>
-					<input type='text' placeholder='Search' />
-					<button className='btnSearch'>
-						<IoSearch />
-					</button>
-				</form>
-			</article>
-			<section>
-				<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: 20 }}>
-					{Pics.map((pic) => {
-						return (
-							<article key={pic.id}>
-								<div className='pic'>
-									<img
-										src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`}
-										alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`}
-									/>
-								</div>
-								<h2>{pic.title}</h2>
+		<>
+			<Layout title={'Gallery'}>
+				<article className='controls'>
+					<nav className='btnSet' ref={refNav}>
+						<button onClick={handleInterest}>Interest Gallery</button>
+						<button className='on' onClick={handleMine}>
+							My Gallery
+						</button>
+					</nav>
+					<form onSubmit={handleSearch}>
+						<input type='text' placeholder='Search' />
+						<button className='btnSearch'>
+							<IoSearch />
+						</button>
+					</form>
+				</article>
+				<section>
+					<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: 20 }}>
+						{/* 3항 연산자로 배열에 받아지는 값이 없으면 경고문구 출력: 주의점: 3항연산자로 JSX를 분기처리시에는 괄호로 묶어줌 */}
+						{Pics.length === 0 ? (
+							<h2>해당 키워드에 대한 검색 결과가 없습니다.</h2>
+						) : (
+							Pics.map((pic) => {
+								return (
+									<article key={pic.id}>
+										<div className='pic' onClick={() => setOpen(true)}>
+											<img
+												src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`}
+												alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`}
+											/>
+										</div>
+										<h2>{pic.title}</h2>
 
-								<div className='profile'>
-									<img
-										src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
-										alt='사용자프로필이미지'
-										onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
-									/>
-									<span onClick={handleUser}>{pic.owner}</span>
-								</div>
-							</article>
-						);
-					})}
-				</Masonry>
-			</section>
-		</Layout>
+										<div className='profile'>
+											<img
+												src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
+												alt='사용자 프로필 이미지'
+												onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
+											/>
+											<span onClick={handleUser}>{pic.owner}</span>
+										</div>
+									</article>
+								);
+							})
+						)}
+					</Masonry>
+				</section>
+			</Layout>
+			{Open && (
+				<Modal setOpen={setOpen}>
+					<h2>자식컨텐츠</h2>
+				</Modal>
+			)}
+		</>
 	);
 }
