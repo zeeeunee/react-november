@@ -44,6 +44,13 @@ export default function Gallery() {
 		fetchFlickr({ type: 'user', id: e.target.innerText });
 	};
 
+	const handleSearch = (e) => {
+		//기본 submit이벤트는 전송기능이기 때문에 무조건 화면이 새로고침됨
+		//전송을 할것이 아니라 리액트로 추가 로직구현을 할것이므로 기본 전송기능 막음
+		e.preventDefault();
+		const keyword = e.target.children[0].value;
+	};
+
 	const fetchFlickr = async (opt) => {
 		const num = 100;
 		const flickr_api = process.env.REACT_APP_YOUTUBE_FLICKR_API;
@@ -73,9 +80,9 @@ export default function Gallery() {
 
 	useEffect(() => {
 		//2-처음 컴포넌트 마운트시 타입을 user로 지정하고 id값으로 내 아이디등록
-		//fetchFlickr({ type: 'user', id: myID.current });
+		fetchFlickr({ type: 'user', id: myID.current });
 		//fetchFlickr({ type: 'interest' });
-		fetchFlickr({ type: 'search', keyworld: 'landscape' });
+		//fetchFlickr({ type: 'search', keyworld: 'landscape' });
 	}, []);
 
 	return (
@@ -87,9 +94,11 @@ export default function Gallery() {
 						My Gallery
 					</button>
 				</nav>
-				<form>
+				<form onSubmit={handleSearch}>
 					<input type='text' placeholder='Search' />
-					<IoSearch className='btnSearch' />
+					<button className='btnSearch'>
+						<IoSearch />
+					</button>
 				</form>
 			</article>
 			<section>
