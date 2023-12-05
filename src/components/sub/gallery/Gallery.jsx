@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Gallery.scss';
 import Masonry from 'react-masonry-component';
+import { IoSearch } from 'react-icons/io5';
 
 export default function Gallery() {
 	console.log('re-render');
@@ -86,6 +87,10 @@ export default function Gallery() {
 						My Gallery
 					</button>
 				</nav>
+				<form>
+					<input type='text' placeholder='Search' />
+					<IoSearch className='btnSearch' />
+				</form>
 			</article>
 			<section>
 				<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: 20 }}>
