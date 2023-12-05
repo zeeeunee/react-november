@@ -13,6 +13,7 @@ export default function Gallery() {
 	const refNav = useRef(null);
 	const [Pics, setPics] = useState([]);
 	const [Open, setOpen] = useState(false);
+	const [Index, setIndex] = useState(0);
 
 	const activateBtn = (e) => {
 		const btns = refNav.current.querySelectorAll('button');
@@ -89,6 +90,9 @@ export default function Gallery() {
 
 		setPics(json.photos.photo);
 	};
+	const openModal = (e) => {
+		setOpen(true);
+	};
 
 	useEffect(() => {
 		//2-처음 컴포넌트 마운트시 타입을 user로 지정하고 id값으로 내 아이디등록
@@ -120,10 +124,16 @@ export default function Gallery() {
 						{Pics.length === 0 ? (
 							<h2>해당 키워드에 대한 검색 결과가 없습니다.</h2>
 						) : (
-							Pics.map((pic) => {
+							Pics.map((pic, idx) => {
 								return (
 									<article key={pic.id}>
-										<div className='pic' onClick={() => setOpen(true)}>
+										<div
+											className='pic'
+											onClick={() => {
+												setOpen(true);
+												setIndex(idx);
+											}}
+										>
 											<img
 												src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`}
 												alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`}
@@ -148,7 +158,7 @@ export default function Gallery() {
 			</Layout>
 			{Open && (
 				<Modal setOpen={setOpen}>
-					<h2>자식컨텐츠</h2>
+					<img src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`} alt={'img'} />
 				</Modal>
 			)}
 		</>
