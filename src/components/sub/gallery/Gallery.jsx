@@ -155,7 +155,9 @@ export default function Gallery() {
 			</Layout>
 			{Open && (
 				<Modal Open={Open} setOpen={setOpen}>
-					<img src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`} alt={Pics[Index].title} />
+					{Pics.length !== 0 && (
+						<img src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`} alt={Pics[Index].title} />
+					)}
 				</Modal>
 			)}
 		</>

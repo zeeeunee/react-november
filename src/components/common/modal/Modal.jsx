@@ -1,10 +1,14 @@
 import './Modal.scss';
 
-export default function Modal({ setOpen, children }) {
+export default function Modal({ Open, setOpen, children }) {
 	return (
-		<aside className='Modal'>
-			<div className='con'>{children}</div>
-			<span onClock={() => setOpen(false)}>close</span>
-		</aside>
+		<>
+			{Open && (
+				<aside className='Modal'>
+					<div className='con'>{children}</div>
+					<span onClick={() => setOpen(false)}>close</span>
+				</aside>
+			)}
+		</>
 	);
 }
