@@ -51,10 +51,13 @@ export default function Gallery() {
 		isUser.current = '';
 		activateBtn();
 		const keyword = e.target.children[0].value;
+		if (!keyword.trim()) return;
+		e.target.children[0].value = '';
 		fetchFlickr({ type: 'search', keyword: keyword });
 	};
 
 	const fetchFlickr = async (opt) => {
+		console.log('fetching again...');
 		const num = 100;
 		const flickr_api = process.env.REACT_APP_YOUTUBE_FLICKR_API;
 		const baseURL = `https://www.flickr.com/services/rest/?&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1&method=`;
