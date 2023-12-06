@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Community.scss';
 import { ImCancelCircle } from 'react-icons/im';
@@ -20,6 +20,11 @@ export default function Community() {
 		setPost([{ title: refTit.current.value, content: refCon.current.value }, ...Post]);
 		resetPost();
 	};
+
+	useEffect(() => {
+		localStorage.setItem('post', JSON.stringify(Post));
+	}, [Post]);
+
 	return (
 		<Layout title={'Community'}>
 			<div className='wrap'>
@@ -66,4 +71,13 @@ export default function Community() {
 	Read (데이터호출) 글목록 보기
 	Update (데이터변경) 글 수정
 	Delete (데이터삭제) 글 삭제
+
+	localStorage :모든 브라우저가 내장하고 있는 경량의 저장소
+	--문자값만 저장가능(5MB)
+	--로컬저장소에 문자열이외의 값을 저장할때에는 강제로 문자화시켜서 저장
+	--로컬저장소의 값을 JS로 가져올때에는 문자값을 반대로 객체화시켜서 호출
+
+	localStorage객체에 활용가능한 메서드
+	-setItem('키','문자화된 데이터');
+	-getItem('키') 해당 키값에 매칭이 되는 데이터를 가져옴
 */
