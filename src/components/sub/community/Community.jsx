@@ -2,20 +2,30 @@ import Layout from '../../common/layout/Layout';
 import './Community.scss';
 import { GiCancel } from 'react-icons/gi';
 import { BsChatLeftText } from 'react-icons/bs';
+import { useRef, useState } from 'react';
 
 export default function Community() {
+	const [Post, setPost] = useState([]);
+	const refTit = useRef(null);
+	const refCon = useRef(null);
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		setPost([...Post, { title: refTit.current.value, content: refCon.current.value }]);
+	};
+
 	return (
 		<Layout title={'Community'}>
 			<div className='wrap'>
 				<div className='inputBox'>
-					<form>
-						<input type='text' placeholder='title' name='tit' />
-						<textarea cols='30' rows='3' name='con' placeholder='content'></textarea>
+					<form onSubmit={handleSubmit}>
+						<input type='text' placeholder='title' name='tit' ref={refTit} />
+						<textarea cols='30' rows='3' name='con' placeholder='content' ref={refCon}></textarea>
 						<nav>
-							<button>
+							<button type='reset'>
 								<GiCancel />
 							</button>
-							<button>
+							<button type='submit'>
 								<BsChatLeftText />
 							</button>
 						</nav>
