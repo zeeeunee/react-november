@@ -11,6 +11,10 @@ export default function Gallery() {
 
 	const isUser = useRef(myID.current); //isUser의 초기값을 내 아이디 문자값으로 등록
 	const refNav = useRef(null);
+	const refFrameWrap = useRef(null);
+
+	const gap = useRef(20);
+
 	const [Pics, setPics] = useState([]);
 	const [Open, setOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
@@ -95,6 +99,8 @@ export default function Gallery() {
 	};
 
 	useEffect(() => {
+		refFrameWrap.current.style.setProperty('--gap', gap.current + 'px');
+
 		//2-처음 컴포넌트 마운트시 타입을 user로 지정하고 id값으로 내 아이디등록
 		fetchFlickr({ type: 'user', id: myID.current });
 		//fetchFlickr({ type: 'interest' });
@@ -118,8 +124,8 @@ export default function Gallery() {
 						</button>
 					</form>
 				</article>
-				<section>
-					<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: 20 }}>
+				<section className='frameWrap' ref={refFrameWrap}>
+					<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: gap.current }}>
 						{/* 3항 연산자로 배열에 받아지는 값이 없으면 경고문구 출력: 주의점: 3항연산자로 JSX를 분기처리시에는 괄호로 묶어줌 */}
 						{Pics.length === 0 ? (
 							<h2>해당 키워드에 대한 검색 결과가 없습니다.</h2>
