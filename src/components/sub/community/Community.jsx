@@ -1,37 +1,51 @@
+import { useRef, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Community.scss';
-import { GiCancel } from 'react-icons/gi';
-import { BsChatLeftText } from 'react-icons/bs';
-import { useRef, useState } from 'react';
-
+import { ImCancelCircle } from 'react-icons/im';
+import { TfiWrite } from 'react-icons/tfi';
 export default function Community() {
 	const [Post, setPost] = useState([]);
 	const refTit = useRef(null);
 	const refCon = useRef(null);
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		setPost([...Post, { title: refTit.current.value, content: refCon.current.value }]);
+	console.log(Post);
+	const resetPost = () => {
+		refTit.current.value = '';
+		refCon.current.value = '';
 	};
-
+	const createPost = () => {
+		setPost([{ title: refTit.current.value, content: refCon.current.value }, ...Post]);
+	};
 	return (
 		<Layout title={'Community'}>
 			<div className='wrap'>
 				<div className='inputBox'>
-					<form onSubmit={handleSubmit}>
-						<input type='text' placeholder='title' name='tit' ref={refTit} />
-						<textarea cols='30' rows='3' name='con' placeholder='content' ref={refCon}></textarea>
-						<nav>
-							<button type='reset'>
-								<GiCancel />
-							</button>
-							<button type='submit'>
-								<BsChatLeftText />
-							</button>
-						</nav>
-					</form>
+					<input type='text' placeholder='title' ref={refTit} />
+					<textarea cols='30' rows='3' placeholder='content' ref={refCon}></textarea>
+					<nav>
+						<button onClick={resetPost}>
+							<ImCancelCircle />
+						</button>
+						<button onClick={createPost}>
+							<TfiWrite />
+						</button>
+					</nav>
 				</div>
-				<div className='showBox'></div>
+				<div className='showBox'>
+					{Post.map((el, idx) => {
+						return (
+							<article key={el + idx}>
+								<div className='txt'>
+									<h2>{el.title}</h2>
+									<p>{el.content}</p>
+								</div>
+								<nav>
+									<button>Edit</button>
+									<button>Delete</button>
+								</nav>
+							</article>
+						);
+					})}
+				</div>
 			</div>
 		</Layout>
 	);
