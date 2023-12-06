@@ -1,8 +1,30 @@
 import Layout from '../../common/layout/Layout';
 import './Community.scss';
+import { GiCancel } from 'react-icons/gi';
+import { BsChatLeftText } from 'react-icons/bs';
 
 export default function Community() {
-	return <Layout title={'Community'}>Community</Layout>;
+	return (
+		<Layout title={'Community'}>
+			<div className='wrap'>
+				<div className='inputBox'>
+					<form>
+						<input type='text' placeholder='title' name='tit' />
+						<textarea cols='30' rows='3' name='con' placeholder='content'></textarea>
+						<nav>
+							<button>
+								<GiCancel />
+							</button>
+							<button>
+								<BsChatLeftText />
+							</button>
+						</nav>
+					</form>
+				</div>
+				<div className='showBox'></div>
+			</div>
+		</Layout>
+	);
 }
 /*
 	1.글입력 박스, 글 출력박스를 생성
