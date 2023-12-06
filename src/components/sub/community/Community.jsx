@@ -4,7 +4,15 @@ import './Community.scss';
 import { ImCancelCircle } from 'react-icons/im';
 import { TfiWrite } from 'react-icons/tfi';
 export default function Community() {
-	const [Post, setPost] = useState([]);
+	const getLocalData = () => {
+		const data = localStorage.getItem('post');
+		//로컬저장소에 post키값에 값이 있으면 parsing 해서 리턴
+		if (data) return JSON.parse(data);
+		//없으면 그냥 빈 배열을 리턴 (해당 컴포넌트가 젤 처음 호출될때 한번)
+		else return [];
+	};
+	const [Post, setPost] = useState(getLocalData());
+
 	const refTit = useRef(null);
 	const refCon = useRef(null);
 	console.log(Post);
