@@ -109,6 +109,8 @@ export default function Community() {
 	};
 
 	useEffect(() => {
+		//Post데이터가 변경되면 수정모드를 강제로 false처리하면서 로컬저장소에 저장하고 컴포넌트 재실행
+		Post.map((el) => (el.enableUpdate = false));
 		localStorage.setItem('post', JSON.stringify(Post));
 	}, [Post]);
 
