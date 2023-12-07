@@ -73,6 +73,16 @@
 						opacity: 0.6;
 						margin-bottom: 40px;
 					}
+					//수정모드일때 폼요소 스타일링
+					input,
+					textarea {
+						border: none;
+						width: 100%;
+						font-size: 1rem;
+						padding: 3px 10px;
+						margin-bottom: 20px;
+						resize: none;
+					}
 				}
 
 				nav {

@@ -21,6 +21,9 @@ export default function Community() {
 	const refCon = useRef(null);
 	console.log(Post);
 
+	const refEditTit = useRef(null);
+	const refEditCon = useRef(null);
+
 	//input초기화함수
 	const resetPost = () => {
 		refTit.current.value = '';
@@ -40,6 +43,25 @@ export default function Community() {
 		setPost([{ title: refTit.current.value, content: refCon.current.value, date: new Date(korTime) }, ...Post]);
 		resetPost();
 	};
+
+	//글 수정 함수
+	const updatePost = (updateIndex) => {
+		if (!refEditTit.current.value.trim() || !refEditCon.current.value.trim()) {
+			return alert('수정할 글의 제목과  본문을 모두 입력하세요.');
+		}
+
+		setPost(
+			Post.map((el, idx) => {
+				if (updateIndex === idx) {
+					el.title = refEditTit.current.value;
+					el.content = refEditCon.current.value;
+					el.enableUpdate = false;
+				}
+				return el;
+			})
+		);
+	};
+
 	//글 삭제 함수
 	const deletePost = (delIndex) => {
 		//console.log(delIndex);
@@ -85,7 +107,7 @@ export default function Community() {
 			<div className='wrap'>
 				<div className='inputBox'>
 					<input type='text' placeholder='title' ref={refTit} />
-					<textarea cols='30' rows='3' placeholder='content' ref={refCon}></textarea>
+					<textarea cols='30' rows='4' placeholder='content' ref={refCon}></textarea>
 					<nav>
 						<button onClick={resetPost}>
 							<ImCancelCircle />
@@ -109,14 +131,14 @@ export default function Community() {
 							return (
 								<article key={el + idx}>
 									<div className='txt'>
-										<input type='text' defaultValue={el.title} />
-										<textarea cols='30' rows='3' defaultValue={el.content}></textarea>
+										<input type='text' defaultValue={el.title} ref={refEditTit} />
+										<textarea cols='30' rows='3' defaultValue={el.content} ref={refEditCon}></textarea>
 										<span>{strDate}</span>
 									</div>
 									<nav>
 										{/* 수정모드 일때 해당 버튼 클릭시 다시 출력모드 변경 */}
 										<button onClick={() => disableUpdate(idx)}>Cancel</button>
-										<button>Update</button>
+										<button onClick={() => updatePost(idx)}>Update</button>
 									</nav>
 								</article>
 							);
