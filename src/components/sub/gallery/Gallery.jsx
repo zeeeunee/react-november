@@ -15,6 +15,9 @@ export default function Gallery() {
 
 	const gap = useRef(20);
 
+	//검색함수가 실행됐는지를 확인하기 위한 참조객체
+	const searched = useRef(false);
+
 	const [Pics, setPics] = useState([]);
 	const [Open, setOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
@@ -63,6 +66,9 @@ export default function Gallery() {
 		fetchFlickr({ type: 'search', keyword: keyword });
 	};
 
+	//검색함수가 한번이라도 실행되면 영구적으로 초기값을 true로 변경처리
+	searched.current = true;
+
 	const fetchFlickr = async (opt) => {
 		console.log('fetching again...');
 		const num = 100;
@@ -88,9 +94,9 @@ export default function Gallery() {
 		const data = await fetch(url);
 		const json = await data.json();
 
-		if (json.photos.photo.length === 0) {
-			return alert('해당 검색어의 결과값이 없습니다.');
-		}
+		// if (json.photos.photo.length === 0) {
+		// 	return alert('해당 검색어의 결과값이 없습니다.');
+		// }
 
 		setPics(json.photos.photo);
 	};
@@ -127,7 +133,8 @@ export default function Gallery() {
 				<section className='frameWrap' ref={refFrameWrap}>
 					<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: gap.current }}>
 						{/* 3항 연산자로 배열에 받아지는 값이 없으면 경고문구 출력: 주의점: 3항연산자로 JSX를 분기처리시에는 괄호로 묶어줌 */}
-						{Pics.length === 0 ? (
+						{/* searched값이 true고 검색결과가 없는 2가지 조건이 동시에 만족해야지 에러메시지 출력 */}
+						{searched.current && Pics.length === 0 ? (
 							<h2>해당 키워드에 대한 검색 결과가 없습니다.</h2>
 						) : (
 							Pics.map((pic, idx) => {
