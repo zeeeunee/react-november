@@ -61,6 +61,16 @@ export default function Community() {
 		);
 	};
 
+	//출력모드 변경함수
+	const disableUpdate = (editIndex) => {
+		setPost(
+			Post.map((el, idx) => {
+				if (editIndex === idx) el.enableUpdate = false;
+				return el;
+			})
+		);
+	};
+
 	const filtering = (txt) => {
 		const abc = Post.filter((el) => el.title.indexOf(txt) >= 0 || el.content.indexOf(txt) >= 0);
 		console.log(abc);
@@ -94,20 +104,38 @@ export default function Community() {
 						//반환된 문자값을 다시 changeText의 인수로 전달해서 (년도.월.일)로 변환
 						const strDate = changeText(date.split('T')[0].slice(1), '.');
 
-						return (
-							<article key={el + idx}>
-								<div className='txt'>
-									<h2>{el.title}</h2>
-									<p>{el.content}</p>
-									{/* 변환된 날자값 최종 출력 */}
-									<span>{strDate}</span>
-								</div>
-								<nav>
-									<button onClick={() => enableUpdate(idx)}>Edit</button>
-									<button onClick={() => deletePost(idx)}>Delete</button>
-								</nav>
-							</article>
-						);
+						if (el.enableUpdate) {
+							//수정모드
+							return (
+								<article key={el + idx}>
+									<div className='txt'>
+										<input type='text' defaultValue={el.title} />
+										<textarea cols='30' rows='3' defaultValue={el.content}></textarea>
+										<span>{strDate}</span>
+									</div>
+									<nav>
+										{/* 수정모드 일때 해당 버튼 클릭시 다시 출력모드 변경 */}
+										<button onClick={() => disableUpdate(idx)}>Cancel</button>
+										<button>Update</button>
+									</nav>
+								</article>
+							);
+						} else {
+							//출력모드
+							return (
+								<article key={el + idx}>
+									<div className='txt'>
+										<h2>{el.title}</h2>
+										<p>{el.content}</p>
+										<span>{strDate}</span>
+									</div>
+									<nav>
+										<button onClick={() => enableUpdate(idx)}>Edit</button>
+										<button onClick={() => deletePost(idx)}>Delete</button>
+									</nav>
+								</article>
+							);
+						}
 					})}
 				</div>
 			</div>
