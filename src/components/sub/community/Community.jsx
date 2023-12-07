@@ -3,7 +3,10 @@ import Layout from '../../common/layout/Layout';
 import './Community.scss';
 import { ImCancelCircle } from 'react-icons/im';
 import { TfiWrite } from 'react-icons/tfi';
+import { useCustomText } from '../../../hooks/useText';
+
 export default function Community() {
+	const changeText = useCustomText('combined');
 	const getLocalData = () => {
 		const data = localStorage.getItem('post');
 		//로컬저장소에 post키값에 값이 있으면 parsing 해서 리턴
@@ -28,7 +31,8 @@ export default function Community() {
 			resetPost();
 			return alert('제목과 본문을 모두 입력하세요.');
 		}
-		setPost([{ title: refTit.current.value, content: refCon.current.value }, ...Post]);
+		const korTime = new Date().getTime() + 1000 * 60 * 60 * 9;
+		setPost([{ title: refTit.current.value, content: refCon.current.value, date: new Date(korTime) }, ...Post]);
 		resetPost();
 	};
 	//글 삭제 함수
@@ -65,11 +69,15 @@ export default function Community() {
 				</div>
 				<div className='showBox'>
 					{Post.map((el, idx) => {
+						const date = JSON.stringify(el.date);
+						const strDate = changeText(date.split('T')[0].slice(1), '.');
+						console.log(strDate);
 						return (
 							<article key={el + idx}>
 								<div className='txt'>
 									<h2>{el.title}</h2>
 									<p>{el.content}</p>
+									<span>{strDate}</span>
 								</div>
 								<nav>
 									<button onClick={() => filtering('a')}>Edit</button>
