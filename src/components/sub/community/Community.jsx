@@ -24,6 +24,8 @@ export default function Community() {
 	const refEditTit = useRef(null);
 	const refEditCon = useRef(null);
 
+	const editMode = useRef(false);
+
 	//input초기화함수
 	const resetPost = () => {
 		refTit.current.value = '';
@@ -50,6 +52,8 @@ export default function Community() {
 			return alert('수정할 글의 제목과  본문을 모두 입력하세요.');
 		}
 
+		editMode.current = false;
+
 		setPost(
 			Post.map((el, idx) => {
 				if (updateIndex === idx) {
@@ -75,6 +79,10 @@ export default function Community() {
 	const enableUpdate = (editIndex) => {
 		//기존의 post배열을 반복돌면서 파라미터로 전달된 editIndex순번의 포스트에만 enableUpdate=true라는 구분자를 추가해서 다시 state 변경처리
 		//다음번 렌더링때 해당 구분자가 있는 포스트 객체만 수정모드로 분기처리하기 위함
+
+		if (editMode.current) return;
+		editMode.current = true;
+
 		setPost(
 			Post.map((el, idx) => {
 				if (editIndex === idx) el.enableUpdate = true;
@@ -85,6 +93,8 @@ export default function Community() {
 
 	//출력모드 변경함수
 	const disableUpdate = (editIndex) => {
+		editMode.current = false;
+
 		setPost(
 			Post.map((el, idx) => {
 				if (editIndex === idx) el.enableUpdate = false;
