@@ -45,6 +45,7 @@ export default function Community() {
 		//console.log(delIndex);
 		//기존 map과 마찬가지로 기존 배열값을 deep copy해서 새로운배열 반환
 		//이때 안쪽에 조건문을 처리해서 특정 조건에 부합되는 값만 filtering해서 리턴
+		if (!window.confirm('정말 해당 게시글을 삭제하겠습니까?')) return;
 		setPost(Post.filter((_, idx) => delIndex !== idx));
 	};
 
