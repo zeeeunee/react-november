@@ -9,7 +9,7 @@ export default function Contact() {
 
 	useEffect(() => {
 		const mapInstance = new kakao.maps.Map(mapFrame.current, mapOption.current);
-		const posInstance = new kakao.maps.LatLng(33.450701, 126.570667);
+		const posInstance = mapOption.current.center;
 		const markerInstance = new kakao.maps.Marker({
 			position: posInstance,
 		});
