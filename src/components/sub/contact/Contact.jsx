@@ -41,7 +41,18 @@ export default function Contact() {
 		position: mapInfo.current[Index].latlng,
 		image: new kakao.current.maps.MarkerImage(mapInfo.current[Index].imgSrc, mapInfo.current[Index].imgSize, mapInfo.current[Index].imgOpt),
 	});
-	const setCenter = () => mapInstance.current.setCenter(mapInfo.current[Index].latlng);
+
+	const roadview = () => {
+		new kakao.current.maps.RoadviewClient().getNearestPanoId(mapInfo.current[Index].latlng, 50, (panoId) => {
+			new kakao.current.maps.Roadview(viewFrame.current).setPanoId(panoId, mapInfo.current[Index].latlng);
+		});
+	};
+
+	const setCenter = () => {
+		mapInstance.current.setCenter(mapInfo.current[Index].latlng);
+		roadview();
+	};
+
 	//컴포넌트 마운트시 참조객체에 담아놓은 돔 프레임에 지도 인스턴스 출력 및 마커 세팅
 	useEffect(() => {
 		mapFrame.current.innerHTML = '';
@@ -51,6 +62,9 @@ export default function Contact() {
 		});
 		marker.current.setMap(mapInstance.current);
 		setTraffic(false);
+
+		roadview();
+
 		new kakao.current.maps.RoadviewClient().getNearestPanoId(mapInfo.current[Index].latlng, 50, (panoId) => {
 			new kakao.current.maps.Roadview(viewFrame.current).setPanoId(panoId, mapInfo.current[Index].latlng);
 		});
@@ -82,6 +96,7 @@ export default function Contact() {
 				<nav className='info'>
 					<button onClick={() => setTraffic(!Traffic)}>{Traffic ? 'Traffic OFF' : 'Traffic ON'}</button>
 					<button onClick={() => setView(!View)}>{View ? 'map' : 'road view'}</button>
+					<button onClick={setCenter}>위치 초기화</button>
 				</nav>
 			</div>
 			<section className='tab'>
