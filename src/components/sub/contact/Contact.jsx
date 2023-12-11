@@ -3,10 +3,13 @@ import Layout from '../../common/layout/Layout';
 import './Contact.scss';
 
 export default function Contact() {
-	const [Index, setIndex] = useState(2);
-
 	const { kakao } = window;
+
+	//화면에 출력될 지도정보 배열의 순번이 담길 state
+	const [Index, setIndex] = useState(0);
 	const mapFrame = useRef(null);
+	const marker = useRef(null);
+
 	//지점마다 출력할 정보를 개별적인 객체로 묶어서 배열로 그룹화
 	const mapInfo = useRef([
 		{
@@ -33,21 +36,29 @@ export default function Contact() {
 	]);
 
 	//마커 인스턴스 생성
-	const markerInstance = new kakao.maps.Marker({
+	marker.current = new kakao.maps.Marker({
 		position: mapInfo.current[Index].latlng,
 		image: new kakao.maps.MarkerImage(mapInfo.current[Index].imgSrc, mapInfo.current[Index].imgSize, mapInfo.current[Index].imgOpt),
 	});
 
+	//컴포넌트 마운트시 참조객체에 담아놓은 돔 프레임에 지도 인스턴스 출력 및 마커 세팅
 	useEffect(() => {
 		const mapInstance = new kakao.maps.Map(mapFrame.current, {
 			center: mapInfo.current[Index].latlng,
 			level: 3,
 		});
-		markerInstance.setMap(mapInstance);
-	}, []);
+		marker.current.setMap(mapInstance);
+	}, [Index, kakao]);
 
 	return (
 		<Layout title={'Contact'}>
+			<ul className='branch'>
+				{mapInfo.current.map((el, idx) => (
+					<button key={idx} onClick={() => setIndex(idx)} className={idx === Index ? 'on' : ''}>
+						{el.title}
+					</button>
+				))}
+			</ul>
 			<article className='mapBox' ref={mapFrame}></article>
 		</Layout>
 	);
