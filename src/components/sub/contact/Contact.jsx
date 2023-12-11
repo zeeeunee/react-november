@@ -7,7 +7,6 @@ export default function Contact() {
 	const [Index, setIndex] = useState(0);
 	const [Traffic, setTraffic] = useState(false);
 	const [View, setView] = useState(false);
-
 	const mapFrame = useRef(null);
 	const viewFrame = useRef(null);
 	const marker = useRef(null);
@@ -41,18 +40,15 @@ export default function Contact() {
 		position: mapInfo.current[Index].latlng,
 		image: new kakao.current.maps.MarkerImage(mapInfo.current[Index].imgSrc, mapInfo.current[Index].imgSize, mapInfo.current[Index].imgOpt),
 	});
-
 	const roadview = () => {
 		new kakao.current.maps.RoadviewClient().getNearestPanoId(mapInfo.current[Index].latlng, 50, (panoId) => {
 			new kakao.current.maps.Roadview(viewFrame.current).setPanoId(panoId, mapInfo.current[Index].latlng);
 		});
 	};
-
 	const setCenter = () => {
 		mapInstance.current.setCenter(mapInfo.current[Index].latlng);
 		roadview();
 	};
-
 	//컴포넌트 마운트시 참조객체에 담아놓은 돔 프레임에 지도 인스턴스 출력 및 마커 세팅
 	useEffect(() => {
 		mapFrame.current.innerHTML = '';
@@ -65,10 +61,6 @@ export default function Contact() {
 		setView(false);
 
 		roadview();
-
-		new kakao.current.maps.RoadviewClient().getNearestPanoId(mapInfo.current[Index].latlng, 50, (panoId) => {
-			new kakao.current.maps.Roadview(viewFrame.current).setPanoId(panoId, mapInfo.current[Index].latlng);
-		});
 		//지도 타입 컨트롤러 추가
 		mapInstance.current.addControl(new kakao.current.maps.MapTypeControl(), kakao.current.maps.ControlPosition.TOPRIGHT);
 		//지도 줌 컨트롤러 추가
@@ -93,7 +85,6 @@ export default function Contact() {
 						</button>
 					))}
 				</nav>
-
 				<nav className='info'>
 					<button onClick={() => setTraffic(!Traffic)}>{Traffic ? 'Traffic OFF' : 'Traffic ON'}</button>
 					<button onClick={() => setView(!View)}>{View ? 'map' : 'road view'}</button>
