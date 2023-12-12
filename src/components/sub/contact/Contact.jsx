@@ -6,6 +6,10 @@ import emailjs from '@emailjs/browser';
 export default function Contact() {
 	const form = useRef();
 
+	//그룹형식의 DOM을 탐색할때 반환되는 두가지형태의 유사배열
+	//parentDOM.children : HTMLCollection (유사배열: forEach, map 모두 반복불가, Live DOM:상태변경이 실시간)
+	//parentDOM.querySelectorAll : NodeList (유사배열: forEach로는 반복 가능. Static DOM:탐색된 시점의 정적 DOM)
+
 	const resetForm = () => {
 		const elArr = form.current.children;
 
