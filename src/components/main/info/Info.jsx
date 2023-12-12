@@ -1,7 +1,7 @@
 import { useCustomText } from '../../../hooks/useText';
 import './Info.scss';
 import postData from './dummyPosts.json';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Info() {
 	const changeText = useCustomText('combined');

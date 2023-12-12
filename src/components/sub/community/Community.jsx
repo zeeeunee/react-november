@@ -11,8 +11,8 @@ export default function Community() {
 	const changeText = useCustomText('combined');
 	const getLocalData = () => {
 		const data = localStorage.getItem('post');
-		//로컬저장소에 post키값에 값이 있으면 parsing 해서 리턴
-		return JSON.parse(data);
+		if (data) return JSON.parse(data);
+		else return postData.dummyPosts;
 	};
 	const [Post, setPost] = useState(getLocalData());
 
@@ -42,7 +42,6 @@ export default function Community() {
 		const korTime = new Date().getTime() + 1000 * 60 * 60 * 9;
 		//한국시로 변환된 시간 객체값을 date키값에 추가로 등록해서 State에 저장
 		setPost([{ title: refTit.current.value, content: refCon.current.value, date: new Date(korTime) }, ...Post]);
-		resetPost();
 	};
 
 	//글 수정 함수
