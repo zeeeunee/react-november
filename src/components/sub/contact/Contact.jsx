@@ -18,6 +18,11 @@ export default function Contact() {
 	const sendEmail = e => {
 		e.preventDefault();
 
+		const [user, email] = form.current.querySelectorAll('input');
+		const txtArea = form.current.querySelector('textarea');
+
+		if (!user.value || !email.value || !txtArea.value) return alert('이름, 답장받을 이메일주소 문의내용을 모두 입력하세요.');
+
 		emailjs.sendForm('service_1gzi4dl', 'template_8l9j4yu', form.current, 'SbGYfi4rN5zFsWjvZ').then(
 			result => {
 				alert('문의 내용이 성공적으로 전송되었습니다.');
