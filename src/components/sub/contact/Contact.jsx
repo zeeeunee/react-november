@@ -6,10 +6,6 @@ import emailjs from '@emailjs/browser';
 export default function Contact() {
 	const form = useRef();
 
-	//그룹형식의 DOM을 탐색할때 반환되는 두가지형태의 유사배열
-	//parentDOM.children : HTMLCollection (유사배열: forEach, map 모두 반복불가, Live DOM:상태변경이 실시간)
-	//parentDOM.querySelectorAll : NodeList (유사배열: forEach로는 반복 가능. Static DOM:탐색된 시점의 정적 DOM)
-
 	const resetForm = () => {
 		const elArr = form.current.children;
 
@@ -18,6 +14,7 @@ export default function Contact() {
 			if (el.name === 'user_name' || el.name === 'user_email' || el.name === 'message') el.value = '';
 		});
 	};
+
 	const sendEmail = e => {
 		e.preventDefault();
 
@@ -32,7 +29,9 @@ export default function Contact() {
 			}
 		);
 	};
+
 	const kakao = useRef(window.kakao);
+
 	//화면에 출력될 지도정보 배열의 순번이 담길 state
 	const [Index, setIndex] = useState(0);
 	const [Traffic, setTraffic] = useState(false);
@@ -89,7 +88,6 @@ export default function Contact() {
 		marker.current.setMap(mapInstance.current);
 		setTraffic(false);
 		setView(false);
-
 		roadview();
 		//지도 타입 컨트롤러 추가
 		mapInstance.current.addControl(new kakao.current.maps.MapTypeControl(), kakao.current.maps.ControlPosition.TOPRIGHT);
@@ -144,7 +142,7 @@ export default function Contact() {
 	);
 }
 /*
-1.cdn불러온 window에 불러온 외부 객체값을 가져와서 인스턴스생성
-2.인스턴스값을 참조객체 담는 이유 ( 의존성배열에 불필요하게 등록하지 않기 위해서)
-3.화면변경점이 발생해야 될때 state값에 따라서 변경되게 로직화한 다음 이벤트 발생시 state를 변경해서 화면 재랜더링 유도
+	1.cdn불러온 window에 불러온 외부 객체값을 가져와서 인스턴스 생성
+	2.인스턴스값을 참조객체 담는 이유 (의존성배열에 불필요하게 등록하지 않기 위해서)
+	3.화면변경점이 발생해야 될떄 state값에 따라서 변경되게 로직화한 다음 이벤트 발생시 state를 변경해서 화면 재랜더링 유도
 */
