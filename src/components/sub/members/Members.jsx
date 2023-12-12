@@ -1,7 +1,20 @@
 import Layout from '../../common/layout/Layout';
 import './Members.scss';
+import { useRef, useState } from 'react';
 
 export default function Members() {
+	const initVal = useRef({
+		userid: ''
+	});
+	const [Val, setVal] = useState(initVal.current);
+
+	const handleChange = e => {
+		console.log('name', e.target.name);
+		console.log('value', e.target.value);
+		const key = e.target.name; //userid
+		const value = e.target.value; //현재 입력하고 있는 인풋값
+		setVal({ ...Val, [key]: value });
+	};
 	return (
 		<Layout title={'Members'}>
 			<div className='wrap'>
@@ -17,7 +30,7 @@ export default function Members() {
 									{/* userid, email */}
 									<tr>
 										<td>
-											<input type='text' name='userid' placeholder='User ID' />
+											<input type='text' name='userid' placeholder='User ID' value={Val.userid} onChange={handleChange} />
 										</td>
 										<td>
 											<input type='text' name='email' placeholder='Email' />
