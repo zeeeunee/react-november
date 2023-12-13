@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from 'react';
 export default function Members() {
 	const initVal = useRef({ userid: '', email: '', comments: '', pwd1: '', pwd2: '', edu: '', gender: '', interest: [] });
 	const [Val, setVal] = useState(initVal.current);
+	const [Errs, setErrs] = useState({});
 
 	const handleChange = e => {
 		//const key = e.target.name; //userid
@@ -21,8 +22,21 @@ export default function Members() {
 		setVal({ ...Val, [name]: checkArr });
 	};
 
+	const check = value => {
+		const errs = {};
+
+		if (value.userid.length < 5) errs.userid = '아이디는 최소 5글자 이상 입력하세요';
+		if (value.comments.length < 10) errs.comments = '남기는 말은 최소 10글자 이상 입력하세요';
+		if (!value.gender) errs.gender = '성별을 선택하세요';
+		if (value.interest.length === 0) errs.interest = '관심사를 하나이상 선택하세요.';
+		if (!value.edu) errs.edu = '최종학력을 선택하세요.';
+
+		return errs;
+	};
+
 	useEffect(() => {
 		console.log(Val);
+		setErrs(check(Val));
 	}, [Val]);
 
 	return (
@@ -41,6 +55,7 @@ export default function Members() {
 									<tr>
 										<td>
 											<input type='text' name='userid' placeholder='User ID' value={Val.userid} onChange={handleChange} />
+											{Errs.userid && <p>{Errs.userid}</p>}
 										</td>
 										<td>
 											<input type='text' name='email' placeholder='Email' value={Val.email} onChange={handleChange} />
@@ -67,6 +82,7 @@ export default function Members() {
 												<option value='high-school'>고등학교 졸업</option>
 												<option value='college'>대학교 졸업</option>
 											</select>
+											{Errs.edu && <p>{Errs.edu}</p>}
 										</td>
 									</tr>
 
@@ -78,10 +94,11 @@ export default function Members() {
 
 											<input type='radio' defaultValue='male' id='male' name='gender' onChange={handleChange} />
 											<label htmlFor='male'>Male</label>
+											{Errs.gender && <p>{Errs.gender}</p>}
 										</td>
 									</tr>
 
-									{/* interests */}
+									{/* interest */}
 									<tr>
 										<td colSpan='2'>
 											<input type='checkbox' name='interest' id='sports' defaultValue='sports' onChange={handleCheck} />
@@ -95,6 +112,7 @@ export default function Members() {
 
 											<input type='checkbox' name='interest' id='game' defaultValue='game' onChange={handleCheck} />
 											<label htmlFor='game'>Game</label>
+											{Errs.interest && <p>{Errs.interest}</p>}
 										</td>
 									</tr>
 
@@ -108,6 +126,7 @@ export default function Members() {
 												placeholder='Leave a comment'
 												value={Val.comments}
 												onChange={handleChange}></textarea>
+											{Errs.comments && <p>{Errs.comments}</p>}
 										</td>
 									</tr>
 									<tr>
