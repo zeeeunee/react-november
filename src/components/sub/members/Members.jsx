@@ -1,11 +1,17 @@
 import Layout from '../../common/layout/Layout';
 import './Members.scss';
 import { useRef, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function Members() {
+	const history = useHistory();
 	const initVal = useRef({ userid: '', pwd1: '', pwd2: '', email: '', comments: '', pwd1: '', pwd2: '', edu: '', gender: '', interest: [] });
 	const [Val, setVal] = useState(initVal.current);
 	const [Errs, setErrs] = useState({});
+
+	const handleReset = () => {
+		setVal(initVal.current);
+	};
 
 	const handleChange = e => {
 		//const key = e.target.name; //userid
@@ -27,6 +33,7 @@ export default function Members() {
 
 		if (Object.keys(check(Val)).length === 0) {
 			alert('회원가입을 축하합니다.');
+			history.push('/');
 		}
 	};
 
@@ -152,7 +159,7 @@ export default function Members() {
 									</tr>
 									<tr>
 										<td colSpan='2'>
-											<input type='reset' value='Cancel' />
+											<input type='reset' value='Cancel' onClick={handleReset} />
 											<input type='submit' value='Submit' />
 										</td>
 									</tr>
