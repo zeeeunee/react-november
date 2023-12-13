@@ -13,6 +13,7 @@ export default function Info() {
 	};
 
 	const [Post] = useState(getLocalData());
+	console.log(Post);
 
 	return (
 		<section className='Info'>
