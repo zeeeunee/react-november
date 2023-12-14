@@ -36,7 +36,7 @@ const initMember = {
 };
 
 //초기 데이터값을 state로 지정하고 추후 action객체가 넘어오면 action의 타입에 따라서 해당 데이터를 변경해주는 변형자함수
-//{type:'SET_MEMBERS':payload[변경할데이터배열
+//{type:'SET_MEMBERS':payload[변경할데이터배열]}
 //{type:'ANYTHING':payload:err}
 /*
 const memberReducer = (state = initMember, action) => {
