@@ -9,8 +9,6 @@ export default function Department() {
 	const [HistoryTit, setHistoryTit] = useState('');
 	const [HistoryData, setHistoryData] = useState([]);
 
-	//const [MemberTit, setMemberTit] = useState('');
-	//const [MemberData, setMemberData] = useState([]);
 	const path = useRef(process.env.PUBLIC_URL); //public폴더까지의 경로를 구하는 구문
 	const changeTitle = useCustomText('title');
 
@@ -28,17 +26,6 @@ export default function Department() {
 	const test3 = 'our-members-score';
 	console.log(combinedTitle(test3, '-'));
 
-	// const fetchDepartment = () => {
-	// 	fetch(`${path.current}/DB/department.json`)
-	// 		.then((data) => data.json())
-	// 		.then((json) => {
-	// 			console.log('key', Object.keys(json)[0]); //객체를 반복돌며 key값만 배열로 반환
-	// 			console.log('value', Object.values(json)[0]); //객체를 반복돌며 value값만 배열로 반환
-	// 			setMemberTit(Object.keys(json)[0]);
-	// 			setMemberData(Object.values(json)[0]);
-	// 		});
-	// };
-
 	const fetchHistory = () => {
 		fetch(`${path.current}/DB/history.json`)
 			.then(data => data.json())
@@ -49,7 +36,6 @@ export default function Department() {
 	};
 
 	useEffect(() => {
-		// fetchDepartment();
 		fetchHistory();
 	}, []);
 
