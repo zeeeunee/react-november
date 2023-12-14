@@ -22,13 +22,13 @@ export default function Gallery() {
 	const [Open, setOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
 
-	const activateBtn = (e) => {
+	const activateBtn = e => {
 		const btns = refNav.current.querySelectorAll('button');
-		btns.forEach((btn) => btn.classList.remove('on'));
+		btns.forEach(btn => btn.classList.remove('on'));
 		e && e.target.classList.add('on');
 	};
 
-	const handleInterest = (e) => {
+	const handleInterest = e => {
 		if (e.target.classList.contains('on')) return;
 		//Interest함수 호출시 isUser값을 빈문자열로 초기화 (false로 인식되는 값)
 		isUser.current = '';
@@ -36,7 +36,7 @@ export default function Gallery() {
 		fetchFlickr({ type: 'interest' });
 	};
 
-	const handleMine = (e) => {
+	const handleMine = e => {
 		//콕 찍어서 isUser의 값과 myID값이 동일할때만 함수 중지
 		//마이갤러리 함수 호출시에는 isUser의 문자값이 담겨있다고 하더라도 내 아이디와 똑같지 않으면 핸들러함수를 실행하게 처리
 		//다른 사용자 갤러리를 갔다가 다시 myGallery호출시 이미 다른 사용자 유저 id가 담겨있기 때문에 내 갤러리가 호출되지 않는 문제를 해결하기 위함
@@ -46,7 +46,7 @@ export default function Gallery() {
 		fetchFlickr({ type: 'user', id: myID.current });
 	};
 
-	const handleUser = (e) => {
+	const handleUser = e => {
 		//isUser값이 비어있기만 하면 중지
 		if (isUser.current) return;
 		isUser.current = e.target.innerText;
@@ -54,7 +54,7 @@ export default function Gallery() {
 		fetchFlickr({ type: 'user', id: e.target.innerText });
 	};
 
-	const handleSearch = (e) => {
+	const handleSearch = e => {
 		//기본 submit이벤트는 전송기능이기 때문에 무조건 화면이 새로고침됨
 		//전송을 할것이 아니라 리액트로 추가 로직구현을 할것이므로 기본 전송기능 막음
 		e.preventDefault();
@@ -69,7 +69,7 @@ export default function Gallery() {
 	//검색함수가 한번이라도 실행되면 영구적으로 초기값을 true로 변경처리
 	searched.current = true;
 
-	const fetchFlickr = async (opt) => {
+	const fetchFlickr = async opt => {
 		console.log('fetching again...');
 		const num = 100;
 		const flickr_api = process.env.REACT_APP_FLICKR_API;
@@ -100,7 +100,7 @@ export default function Gallery() {
 
 		setPics(json.photos.photo);
 	};
-	const openModal = (e) => {
+	const openModal = e => {
 		setOpen(true);
 	};
 
@@ -145,8 +145,7 @@ export default function Gallery() {
 											onClick={() => {
 												setOpen(true);
 												setIndex(idx);
-											}}
-										>
+											}}>
 											<img src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`} alt={pic.title} />
 										</div>
 										<h2>{pic.title}</h2>
@@ -155,7 +154,7 @@ export default function Gallery() {
 											<img
 												src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
 												alt='사용자 프로필 이미지'
-												onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
+												onError={e => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
 											/>
 											<span onClick={handleUser}>{pic.owner}</span>
 										</div>
