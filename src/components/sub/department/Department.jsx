@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Department.scss';
 import { useCustomText } from '../../../hooks/useText';
@@ -6,8 +6,7 @@ import { useSelector } from 'react-redux';
 
 export default function Department() {
 	const MemberData = useSelector(store => store.memberReducer.members);
-	const [HistoryTit, setHistoryTit] = useState('');
-	const [HistoryData, setHistoryData] = useState([]);
+	const HistoryData = useSelector(store => store.historyReducer.history);
 
 	const path = useRef(process.env.PUBLIC_URL); //public폴더까지의 경로를 구하는 구문
 	const changeTitle = useCustomText('title');
@@ -26,26 +25,13 @@ export default function Department() {
 	const test3 = 'our-members-score';
 	console.log(combinedTitle(test3, '-'));
 
-	const fetchHistory = () => {
-		fetch(`${path.current}/DB/history.json`)
-			.then(data => data.json())
-			.then(json => {
-				setHistoryTit(Object.keys(json)[0]);
-				setHistoryData(Object.values(json)[0]);
-			});
-	};
-
-	useEffect(() => {
-		fetchHistory();
-	}, []);
-
 	return (
 		<Layout title={'Department'}>
 			<section className='historyBox'>
-				<h2>{combinedTitle(HistoryTit)}</h2>
+				<h2>{combinedTitle('History')}</h2>
 				<div className='con'>
 					{/* HistoryData가 반복도는 각각의 데이터 {년도: 배열} */}
-					{HistoryData.map((history, idx) => {
+					{HistoryData?.map((history, idx) => {
 						return (
 							<article key={history + idx}>
 								{/* 현재 반복돌고 있는 객체의 key값을 뽑아서 h3로 출력 :2016 */}
@@ -65,7 +51,7 @@ export default function Department() {
 				<h2>{combinedTitle('Members')}</h2>
 
 				<div className='con'>
-					{MemberData.map((member, idx) => {
+					{MemberData?.map((member, idx) => {
 						return (
 							<article key={member + idx}>
 								<div className='pic'>

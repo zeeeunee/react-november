@@ -10,7 +10,7 @@ import Youtube from './components/sub/youtube/Youtube';
 import { Route } from 'react-router-dom';
 import './globalStyles/Variables.scss';
 import './globalStyles/Reset.scss';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useMedia } from './hooks/useMedia';
 import Menu from './components/common/menu/Menu';
@@ -24,26 +24,31 @@ export default function App() {
 	const [Toggle, setToggle] = useState(false);
 
 	//순서3 - fetching된 데이터값을 받아서 액션객체에 담은 뒤 dispatch로 리듀서에 전달하는 함수를 정의
-	const fetchDepartment = () => {
-		fetch(`${path.current}/DB/department.json`)
-			.then(data => data.json())
-			.then(json => {
-				console.log(json.members);
-				dispatch({ type: 'SET_MEMBERS', payload: json.members });
-			});
-	};
+	const fetchDepartment = useCallback(async () => {
+		const data = await fetch(`${path.current}/DB/department.json`);
+		const json = await data.json();
+		dispatch({ type: 'SET_MEMBERS', payload: json.members });
+	}, [dispatch]);
+
+	const fetchHistory = useCallback(async () => {
+		const data = await fetch(`${path.current}/DB/history.json`);
+		const json = await data.json();
+		dispatch({ type: 'SET_HISTORY', payload: json.history });
+	}, [dispatch]);
 
 	//순서4 - 컴포넌트가 처음 마운트 되었을때 함수를 호출해서 비동기 데이터를 리듀서에 전달
 	//render1 : 전역 store의 값은 빈배열
 	//render2 : 그때 비로서 각 컴포넌트에서 useSelector에 해당 비동기 데이터를 접근 가능
-	useEffect(() => fetchDepartment(), []);
+	useEffect(() => {
+		fetchDepartment();
+		fetchHistory();
+	}, [fetchDepartment, fetchHistory]);
 
 	return (
 		<div className={`wrap ${Dark ? 'dark' : ''} ${useMedia()}`}>
 			<Header Dark={Dark} setDark={setDark} Toggle={Toggle} setToggle={setToggle} />
 			<Route exact path='/' component={MainWrap} />
 			<Route path='/department' component={Department} />
-
 			<Route path='/gallery' component={Gallery} />
 			<Route path='/community' component={Community} />
 			<Route path='/members' component={Members} />
