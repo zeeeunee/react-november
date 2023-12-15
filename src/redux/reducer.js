@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
+import * as types from './action';
 
 //순서1 - 리듀서 함수 호출되면서 빈배열로 멤버데이터가 저장될 전역 state값 초기화
 const memberReducer = (state = [], action) => {
 	switch (action.type) {
-		case 'SET_MEMBERS':
+		case 'types.MEMBER.success':
 			return { ...state, members: action.payload };
 		default:
 			return state;
@@ -12,7 +13,7 @@ const memberReducer = (state = [], action) => {
 
 const historyReducer = (state = [], action) => {
 	switch (action.type) {
-		case 'SET_HISTORY':
+		case 'types.HISTORY.success':
 			return { ...state, history: action.payload };
 		default:
 			return state;
@@ -21,9 +22,9 @@ const historyReducer = (state = [], action) => {
 
 const youtubeReducer = (state = [], action) => {
 	switch (action.type) {
-		case 'SET_YOUTUBE':
+		case 'types.YOUTUBE.success':
 			return { ...state, youtube: action.payload };
-		case 'SET_YOUTUBE_ERR':
+		case 'tyes.YOUTUBE.fail':
 			return { ...state, youtube: action.payload };
 		default:
 			return state;
