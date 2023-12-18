@@ -22,7 +22,6 @@ export default function App() {
 	const dispatch = useDispatch();
 	const path = useRef(process.env.PUBLIC_URL);
 	const [Dark, setDark] = useState(false);
-	const [Toggle, setToggle] = useState(false);
 
 	//순서3 - fetching된 데이터값을 받아서 액션객체에 담은 뒤 dispatch로 리듀서에 전달하는 함수를 정의
 	const fetchDepartment = useCallback(async () => {
@@ -63,7 +62,7 @@ export default function App() {
 
 	return (
 		<div className={`wrap ${Dark ? 'dark' : ''} ${useMedia()}`}>
-			<Header Dark={Dark} setDark={setDark} Toggle={Toggle} setToggle={setToggle} />
+			<Header Dark={Dark} setDark={setDark} />
 			<Route exact path='/' component={MainWrap} />
 			<Route path='/department' component={Department} />
 			<Route path='/gallery' component={Gallery} />
@@ -73,7 +72,7 @@ export default function App() {
 			<Route path='/youtube' component={Youtube} />
 			<Route path='/detail/:id' component={Detail} />
 			<Footer />
-			{Toggle && <Menu setToggle={setToggle} />}
+			<Menu />
 		</div>
 	);
 }

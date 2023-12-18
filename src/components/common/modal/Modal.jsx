@@ -6,6 +6,7 @@ import * as types from '../../../redux/action';
 export default function Modal({ children }) {
 	const dispatch = useDispatch();
 	const Open = useSelector(store => store.modalReducer.modal);
+
 	return (
 		<AnimatePresence>
 			{Open && (
