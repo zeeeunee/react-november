@@ -31,5 +31,15 @@ const youtubeReducer = (state = [], action) => {
 	}
 };
 
-const reducers = combineReducers({ memberReducer, historyReducer, youtubeReducer });
+const modalReducer = (state = { modal: false }, action) => {
+	switch (action.type) {
+		case types.MODAL.start:
+			return { ...state, modal: action.payload };
+		default:
+			return state;
+	}
+};
+
+const reducers = combineReducers({ memberReducer, historyReducer, youtubeReducer, modalReducer });
+
 export default reducers;
