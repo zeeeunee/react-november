@@ -30,6 +30,7 @@ const youtubeReducer = (state = { youtube: [] }, action) => {
 			return state;
 	}
 };
+
 const modalReducer = (state = { modal: false }, action) => {
 	switch (action.type) {
 		case types.MODAL.start:

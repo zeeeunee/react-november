@@ -39,18 +39,17 @@ export default function App() {
 	const fetchYoutube = useCallback(async () => {
 		const api_key = process.env.REACT_APP_YOUTUBE_API;
 		const pid = process.env.REACT_APP_YOUTUBE_LIST;
-		const num = 10;
+		const num = 6;
 		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
 
 		try {
 			const data = await fetch(baseURL);
 			const json = await data.json();
-			dispatch({ type: 'types.YOUTUBE.success', payload: json.items });
+			dispatch({ type: types.YOUTUBE.success, payload: json.items });
 		} catch (err) {
-			dispatch({ type: 'tyes.YOUTUBE.fail', payload: err });
+			dispatch({ type: types.YOUTUBE.fail, payload: err });
 		}
 	}, [dispatch]);
-
 	//순서4 - 컴포넌트가 처음 마운트 되었을때 함수를 호출해서 비동기 데이터를 리듀서에 전달
 	//render1 : 전역 store의 값은 빈배열
 	//render2 : 그때 비로서 각 컴포넌트에서 useSelector에 해당 비동기 데이터를 접근 가능
