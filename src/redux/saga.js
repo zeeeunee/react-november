@@ -6,16 +6,16 @@
   fork (saga에서 제너레이터 호출 및 이터러블 객체 반환 함수)  
   all (이터러블 객체 비동기적으로 그룹호출 함수)
 */
-import { takeLatest, all, put, fork, call } from 'redux-saga/effects';
+import { takeLatest, call, put, fork, all } from 'redux-saga/effects';
 import { fetchDepartment } from './api';
 import * as types from './actionType';
 
-//순서1 초기 액션 타입을 인지해서 fetching관련 메서드 대신 호출해주는 함수 정의
+//순서1- 초기 액션 타입을 인지해서 fetching관련 메서드 대신 호출해주는 함수 정의
 function* callMembers() {
 	yield takeLatest(types.MEMBERS.start, returnMembers);
 }
 
-//순서2 데이터 fetching후 비동기 데이터 상태에 따라 액션객체를 만들어 리듀서로 전달하는 함수 정의
+//순서2- 데이터 fetching후 비동기 데이터 상태에 따라 액션객체를 만들어 리듀서로 전달하는 함수 정의
 function* returnMembers() {
 	try {
 		const response = yield call(fetchDepartment);
@@ -25,7 +25,7 @@ function* returnMembers() {
 	}
 }
 
-//순서3 saga메서드를 비동기적으로 호출해주는 함수를 정의후 rootSaga라는 이름으로 export(추후 미들웨어로 reducer에 적용됨)
+//순서3- saga메서드를 비동기적으로 호출해주는 함수를 정의후 rootSaga라는 이름으로 export(추후 미들웨어로 reducer에 적용됨)
 export default function* rootSaga() {
 	yield all([fork(callMembers)]);
 }
