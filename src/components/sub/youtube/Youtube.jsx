@@ -1,7 +1,7 @@
 import Layout from '../../common/layout/Layout';
 import './Youtube.scss';
 import { useCustomText } from '../../../hooks/useText';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export default function Youtube() {
