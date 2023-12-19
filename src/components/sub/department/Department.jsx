@@ -1,55 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Department.scss';
 import { useCustomText } from '../../../hooks/useText';
+import { useSelector } from 'react-redux';
 
 export default function Department() {
-	const [HistoryTit, setHistoryTit] = useState('');
-	const [HistoryData, setHistoryData] = useState([]);
-
-	const [MemberTit, setMemberTit] = useState('');
-	const [MemberData, setMemberData] = useState([]);
-	const path = useRef(process.env.PUBLIC_URL); //public폴더까지의 경로를 구하는 구문
-	const changeTitle = useCustomText('title');
-
-	const test1 = 'abcdef';
-	const shortenText = useCustomText('shorten');
-	console.log(shortenText(test1, 3));
-
-	const test2 = 'our-members';
-	//split : 구분자를 기준점으로 문자를 나눠서 배열로 반환
-	console.log(test2.split('-')); //['our','members']
-	const [forward, backward] = test2.split('-');
-	console.log(changeTitle(forward) + ' ' + changeTitle(backward));
-
 	const combinedTitle = useCustomText('combined');
-	const test3 = 'our-members-score';
-	console.log(combinedTitle(test3, '-'));
+	const path = useRef(process.env.PUBLIC_URL); //public폴더까지의 경로를 구하는 구문
 
-	const fetchDepartment = () => {
-		fetch(`${path.current}/DB/department.json`)
-			.then((data) => data.json())
-			.then((json) => {
-				console.log('key', Object.keys(json)[0]); //객체를 반복돌며 key값만 배열로 반환
-				console.log('value', Object.values(json)[0]); //객체를 반복돌며 value값만 배열로 반환
-				setMemberTit(Object.keys(json)[0]);
-				setMemberData(Object.values(json)[0]);
-			});
-	};
+	const { historyReducer, membersReducer } = useSelector(store => store);
 
-	const fetchHistory = () => {
-		fetch(`${path.current}/DB/history.json`)
-			.then((data) => data.json())
-			.then((json) => {
-				setHistoryTit(Object.keys(json)[0]);
-				setHistoryData(Object.values(json)[0]);
-			});
-	};
-
-	useEffect(() => {
-		fetchDepartment();
-		fetchHistory();
-	}, []);
+	const HistoryTit = Object.keys(historyReducer)[0];
+	const HistoryData = Object.values(historyReducer)[0];
+	const MemberTit = Object.keys(membersReducer)[0];
+	const MemberData = Object.values(membersReducer)[0];
 
 	return (
 		<Layout title={'Department'}>
