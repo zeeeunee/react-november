@@ -5,3 +5,9 @@ export const fetchDepartment = async () => {
 	const json = data.json();
 	return json;
 };
+
+export const fetchHistory = async () => {
+	const data = await fetch(`${path}/DB/history.json`);
+	const json = data.json();
+	return json;
+};

@@ -23,7 +23,9 @@ function App() {
 	useSelector(store => console.log(store));
 	useEffect(() => {
 		dispatch({ type: types.MEMBERS.start });
+		dispatch({ type: types.HISTORY.start });
 	}, [dispatch]);
+
 	const [Dark, setDark] = useState(false);
 	const [Toggle, setToggle] = useState(false);
 
@@ -32,7 +34,6 @@ function App() {
 			<Header Dark={Dark} setDark={setDark} Toggle={Toggle} setToggle={setToggle} />
 			<Route exact path='/' component={MainWrap} />
 			<Route path='/department' component={Department} />
-
 			<Route path='/gallery' component={Gallery} />
 			<Route path='/community' component={Community} />
 			<Route path='/members' component={Members} />
