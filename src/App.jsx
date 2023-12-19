@@ -15,10 +15,11 @@ import { useMedia } from './hooks/useMedia';
 import Menu from './components/common/menu/Menu';
 import Detail from './components/sub/youtube/Detail';
 import * as types from './redux/actionType';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
 	const dispatch = useDispatch();
+	const Dark = useSelector(store => store.darkReducer.dark);
 
 	useEffect(() => {
 		dispatch({ type: types.MEMBERS.start });
@@ -27,12 +28,9 @@ function App() {
 		dispatch({ type: types.FLICKR.start, opt: { type: 'user', id: '199697926@N08' } });
 	}, [dispatch]);
 
-	const [Dark, setDark] = useState(false);
-	const [Toggle, setToggle] = useState(false);
-
 	return (
 		<div className={`wrap ${Dark ? 'dark' : ''} ${useMedia()}`}>
-			<Header Dark={Dark} setDark={setDark} />
+			<Header />
 			<Route exact path='/' component={MainWrap} />
 			<Route path='/department' component={Department} />
 			<Route path='/gallery' component={Gallery} />
@@ -42,7 +40,7 @@ function App() {
 			<Route path='/youtube' component={Youtube} />
 			<Route path='/detail/:id' component={Detail} />
 			<Footer />
-			{Toggle && <Menu />}
+			<Menu />
 		</div>
 	);
 }
