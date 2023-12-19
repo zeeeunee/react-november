@@ -15,5 +15,19 @@ const historyReducer = (state = { history: [] }, action) => {
 	else return state;
 };
 
-const reducers = combineReducers({ membersReducer, historyReducer });
+const youtubeReducer = (state = { youtube: [] }, action) => {
+	if (action.type === types.YOUTUBE.start) return state;
+	else if (action.type === types.YOUTUBE.success) return { ...state, youtube: action.payload };
+	else if (action.type === types.YOUTUBE.fail) return { ...state, youtube: action.payload };
+	else return state;
+};
+
+const flickrReducer = (state = { flickr: [] }, action) => {
+	if (action.type === types.FLICKR.start) return state;
+	else if (action.type === types.FLICKR.success) return { ...state, flickr: action.payload };
+	else if (action.type === types.FLICKR.fail) return { ...state, flickr: action.payload };
+	else return state;
+};
+
+const reducers = combineReducers({ membersReducer, historyReducer, youtubeReducer, flickrReducer });
 export default reducers;

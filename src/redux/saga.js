@@ -7,9 +7,10 @@
   all (이터러블 객체 비동기적으로 그룹호출 함수)
 */
 import { takeLatest, call, put, fork, all } from 'redux-saga/effects';
-import { fetchDepartment, fetchHistory } from './api';
+import { fetchDepartment, fetchHistory, fetchYoutube, fetchFlickr } from './api';
 import * as types from './actionType';
 
+//department members
 function* callMembers() {
 	yield takeLatest(types.MEMBERS.start, returnMembers);
 }
@@ -23,6 +24,7 @@ function* returnMembers() {
 	}
 }
 
+//department history
 function* callHistory() {
 	yield takeLatest(types.HISTORY.start, returnHistory);
 }
@@ -36,6 +38,31 @@ function* returnHistory() {
 	}
 }
 
+//youtube
+//saga함수 하나로 합친것!
+function* callYoutube() {
+	yield takeLatest(types.YOUTUBE.start, function* () {
+		try {
+			const response = yield call(fetchYoutube);
+			yield put({ type: types.YOUTUBE.success, payload: response.items });
+		} catch (err) {
+			yield put({ type: types.YOUTUBE.fail, payload: err });
+		}
+	});
+}
+
+//flickr
+function* callFlickr() {
+	yield takeLatest(types.FLICKR.start, function* (action) {
+		try {
+			const response = yield call(fetchFlickr, action.opt);
+			yield put({ type: types.FLICKR.success, payload: response.photos.photo });
+		} catch (err) {
+			yield put({ type: types.FLICKR.fail, payload: err });
+		}
+	});
+}
+
 export default function* rootSaga() {
-	yield all([fork(callMembers), fork(callHistory)]);
+	yield all([fork(callMembers), fork(callHistory), fork(callYoutube), fork(callFlickr)]);
 }

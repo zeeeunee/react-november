@@ -4,9 +4,10 @@ import './Gallery.scss';
 import Masonry from 'react-masonry-component';
 import { IoSearch } from 'react-icons/io5';
 import Modal from '../../common/modal/Modal';
+import { useSelector } from 'react-redux';
 
 export default function Gallery() {
-	console.log('re-render');
+	useSelector(store => console.log(store.flickrReducer.flickr));
 	const myID = useRef('199697926@N08'); //1-참조객체에 내 아이디값 등록
 
 	const isUser = useRef(myID.current); //isUser의 초기값을 내 아이디 문자값으로 등록

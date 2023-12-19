@@ -20,10 +20,11 @@ import { useSelector, useDispatch } from 'react-redux';
 function App() {
 	const dispatch = useDispatch();
 
-	useSelector(store => console.log(store));
 	useEffect(() => {
 		dispatch({ type: types.MEMBERS.start });
 		dispatch({ type: types.HISTORY.start });
+		dispatch({ type: types.YOUTUBE.start });
+		dispatch({ type: types.FLICKR.start, opt: { type: 'user', id: '199697926@N08' } });
 	}, [dispatch]);
 
 	const [Dark, setDark] = useState(false);
