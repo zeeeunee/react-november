@@ -1,4 +1,4 @@
-import { creatAsyncThunk, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 //createAsyncThunk : 내부에 fetching함수를 넣어서 알아서 데이터상태에 따라서 액션액체 생성함수
 //createSlice : AsyncThunk함수가 내보내주는 action객체를 자동을 받아서 해당 액션의 타입 [pending,fullfiled,rejected]에 따라서 자동으로 전역데이터 변경해서 내보냄
