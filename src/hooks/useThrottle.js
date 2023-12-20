@@ -14,7 +14,7 @@ export const useThrottle = (func, gap = 500) => {
 	const eventBlocker = useRef(null);
 
 	return () => {
-		//eventBlocker이 담겨있으면 리턴으로 강제 중지함으서써 setTimeout중복호출하지 않음
+		//eventBlocker이 담겨있으면 리턴으로 강제 중지함으로써 setTimeout중복호출하지 않음
 		if (eventBlocker.current) return;
 
 		//setTime이 실햄됨과 동시에 리턴값을 eventBlocker에 담아서 중복호출을 막으면서 gap시간이후에 호출되는 특정 로직을 보장
