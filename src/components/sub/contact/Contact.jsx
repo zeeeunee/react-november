@@ -41,6 +41,8 @@ export default function Contact() {
 	const [Index, setIndex] = useState(0);
 	const [Traffic, setTraffic] = useState(false);
 	const [View, setView] = useState(false);
+
+	//참조객체
 	const mapFrame = useRef(null);
 	const viewFrame = useRef(null);
 	const marker = useRef(null);
@@ -75,6 +77,7 @@ export default function Contact() {
 		image: new kakao.current.maps.MarkerImage(mapInfo.current[Index].imgSrc, mapInfo.current[Index].imgSize, mapInfo.current[Index].imgOpt)
 	});
 
+	//로드뷰 출력함수
 	const roadview = useCallback(() => {
 		if (!View) return;
 		new kakao.current.maps.RoadviewClient().getNearestPanoId(mapInfo.current[Index].latlng, 50, panoId => {
@@ -82,14 +85,17 @@ export default function Contact() {
 		});
 	}, [Index]);
 
+	//지도 가운데 보정함수
 	const setCenter = useCallback(() => {
 		mapInstance.current.setCenter(mapInfo.current[Index].latlng);
-		roadview.current();
+		roadview();
 	}, [Index]);
 
+	//Index값 변경시마다 지도정보 갱신해서 화면 재랜더링 useEffect
 	//컴포넌트 마운트시 참조객체에 담아놓은 돔 프레임에 지도 인스턴스 출력 및 마커 세팅
 	useEffect(() => {
 		mapFrame.current.innerHTML = '';
+		viewFrame.current.innerHTML = '';
 		mapInstance.current = new kakao.current.maps.Map(mapFrame.current, {
 			center: mapInfo.current[Index].latlng,
 			level: 3
@@ -108,14 +114,18 @@ export default function Contact() {
 		return () => window.removeEventListener('resize', setCenter);
 	}, [Index, setCenter]);
 
+	//Traffic 토글시마다 화면 재랜더링 useEffect
 	useEffect(() => {
 		Traffic
 			? mapInstance.current.addOverlayMapTypeId(kakao.current.maps.MapTypeId.TRAFFIC)
 			: mapInstance.current.removeOverlayMapTypeId(kakao.current.maps.MapTypeId.TRAFFIC);
 	}, [Traffic]);
 
+	//View토글시마다 화면 재랜더링 useEffect
 	useEffect(() => {
-		viewFrame.current.innerHTML = '';
+		//view토글시에 무조건 로드뷰정보를 호출하는 것이 아닌 viewFrame안의 내용이 없을때만 호출하고
+		//값이 있을때에는 기존데이터를 재활용해서 불필요한 roadview중복호출을 막음으로서 고용량이 이미지 refetching을 방지
+		View && viewFrame.current.children.length === 0 && roadview();
 		View && roadview();
 	}, [View, roadview]);
 
