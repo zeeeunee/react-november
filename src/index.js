@@ -9,6 +9,7 @@ import memberReducer from './redux/memberSlice';
 import historyReducer from './redux/historySlice';
 import flickrReducer from './redux/flickrSlice';
 
+//리듀서 객체값 하나로 묶어서 store생성
 const store = configureStore({
 	reducer: {
 		youtube: youtubeReducer,
@@ -20,6 +21,7 @@ const store = configureStore({
 
 ReactDOM.render(
 	<BrowserRouter>
+		{/* 전역 객체 APP에 전달 */}
 		<Provider store={store}>
 			<App />
 		</Provider>
