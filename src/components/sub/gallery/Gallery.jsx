@@ -168,13 +168,12 @@ export default function Gallery() {
 					</Masonry>
 				</section>
 			</Layout>
-			{Open && (
-				<Modal Open={Open} setOpen={setOpen}>
-					{Pics.length !== 0 && (
-						<img src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`} alt={Pics[Index].title} />
-					)}
-				</Modal>
-			)}
+
+			<Modal Open={Open} setOpen={setOpen}>
+				{Pics.length !== 0 && (
+					<img src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`} alt={Pics[Index].title} />
+				)}
+			</Modal>
 		</>
 	);
 }

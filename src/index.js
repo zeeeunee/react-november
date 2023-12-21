@@ -9,6 +9,7 @@ import memberReducer from './redux/memberSlice';
 import historyReducer from './redux/historySlice';
 import flickrReducer from './redux/flickrSlice';
 import modalReducer from './redux/modalSlice';
+import menuReducer from './redux/menuSlice';
 
 //리듀서 객체값 하나로 묶어서 store생성
 const store = configureStore({
@@ -17,7 +18,8 @@ const store = configureStore({
 		member: memberReducer,
 		history: historyReducer,
 		flickr: flickrReducer,
-		modal: modalReducer
+		modal: modalReducer,
+		menu: menuReducer
 	}
 });
 
