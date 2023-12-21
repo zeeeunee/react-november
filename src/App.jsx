@@ -23,8 +23,7 @@ import { fetchFlickr } from './redux/flickrSlice';
 function App() {
 	const dispatch = useDispatch();
 	useSelector(store => console.log(store));
-
-	const [Dark, setDark] = useState(false);
+	const Dark = useSelector(store => store.dark.isDark);
 
 	//slice로 부터 fetching함수 가져와서 dispatch로 자동생성된 액션객체 전달
 	useEffect(() => {
@@ -36,10 +35,9 @@ function App() {
 
 	return (
 		<div className={`wrap ${Dark ? 'dark' : ''} ${useMedia()}`}>
-			<Header Dark={Dark} setDark={setDark} />
+			<Header />
 			<Route exact path='/' component={MainWrap} />
 			<Route path='/department' component={Department} />
-
 			<Route path='/gallery' component={Gallery} />
 			<Route path='/community' component={Community} />
 			<Route path='/members' component={Members} />

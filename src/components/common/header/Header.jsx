@@ -2,9 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import './Header.scss';
 import { NavLink, Link } from 'react-router-dom';
 import { menuToggle } from '../../../redux/menuSlice';
+import { darkToggle } from '../../../redux/darkSlice';
 
-export default function Header({ Dark, setDark }) {
+export default function Header() {
 	const dispatch = useDispatch();
+	const Dark = useSelector(store => store.dark.isDark);
 
 	return (
 		<header className='Header'>
@@ -43,7 +45,7 @@ export default function Header({ Dark, setDark }) {
 					</NavLink>
 				</li>
 			</ul>
-			<div className={`themeBox ${Dark && 'dark'}`} onClick={() => setDark(!Dark)}>
+			<div className={`themeBox ${Dark && 'dark'}`} onClick={() => dispatch(darkToggle())}>
 				<div className='ball'></div>
 			</div>
 
