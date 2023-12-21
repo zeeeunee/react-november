@@ -4,8 +4,11 @@ import './Gallery.scss';
 import Masonry from 'react-masonry-component';
 import { IoSearch } from 'react-icons/io5';
 import Modal from '../../common/modal/Modal';
+import { useDispatch } from 'react-redux';
+import { modalOpen } from '../../../redux/modalSlice';
 
 export default function Gallery() {
+	const dispatch = useDispatch();
 	console.log('re-render');
 	const myID = useRef('199697926@N08'); //1-참조객체에 내 아이디값 등록
 
@@ -143,7 +146,7 @@ export default function Gallery() {
 										<div
 											className='pic'
 											onClick={() => {
-												setOpen(true);
+												dispatch(modalOpen());
 												setIndex(idx);
 											}}>
 											<img src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`} alt={pic.title} />
