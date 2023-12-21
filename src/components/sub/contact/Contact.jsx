@@ -114,11 +114,13 @@ export default function Contact() {
 		mapInstance.current.addControl(new kakao.current.maps.ZoomControl(), kakao.current.maps.ControlPosition.RIGHT);
 		//휠에 맵 줌 기능 비활성화
 		mapInstance.current.setZoomable(false);
+	}, [Index]);
 
+	useEffect(() => {
 		//resize이벤트에 throttle적용된 함수를 등록 (이벤트자체는 1초에 60번 발생하지만 핸들러함수는 1초에 2번만 실행됨)
 		window.addEventListener('resize', throttledSetCenter);
 		return () => window.removeEventListener('resize', throttledSetCenter);
-	}, [Index, throttledSetCenter]);
+	}, [throttledSetCenter]);
 
 	//Traffic 토글시마다 화면 재랜더링 useEffect
 	useEffect(() => {
