@@ -30,7 +30,7 @@ function App() {
 		dispatch(fetchYoutube());
 		dispatch(fetchMember());
 		dispatch(fetchHistory());
-		dispatch(fetchFlickr({ type: 'interest' }));
+		dispatch(fetchFlickr({ type: 'user', id: '199697926@N08' }));
 	}, [dispatch]);
 
 	return (
