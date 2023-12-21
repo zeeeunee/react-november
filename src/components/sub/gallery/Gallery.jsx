@@ -75,11 +75,6 @@ export default function Gallery() {
 
 	useEffect(() => {
 		refFrameWrap.current.style.setProperty('--gap', gap.current + 'px');
-
-		//2-처음 컴포넌트 마운트시 타입을 user로 지정하고 id값으로 내 아이디등록
-		fetchFlickr({ type: 'user', id: myID.current });
-		//fetchFlickr({ type: 'interest' });
-		//fetchFlickr({ type: 'search', keyworld: 'landscape' });
 	}, []);
 
 	return (
