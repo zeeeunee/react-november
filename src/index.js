@@ -22,3 +22,11 @@ ReactDOM.render(
 	dispatch : 컴포넌트에서 action객체를 전달할때는 무조건 dispatch를 통해서만 전달 가능
 	selector : 컴포넌트에서 전역 store의 데이터 요청할때는 무조건 selector를 통해서만 호출 가능
 */
+
+/*
+redux버전에서 숙지할 내용
+1. flickr빼고 비동기 데이터 사용 컴포넌트에서 store로 데이터 공유 (Member, History, Youtube)
+2. client side data가 store로 공유 (Modal, Mene, Dark)
+3. layout에서 0.3초 있다 on이 붙게 되는데 라이터 이동이  0.3초 보다 빨리 이동할때 optional chaing으로 에러핸들링
+4. Contact컴포넌트에서 throttle이 적용된 throttledSetCenter resize 이벤트 연결문을 따로 useEffect로 분리
+*/
