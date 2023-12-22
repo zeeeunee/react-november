@@ -24,6 +24,8 @@ export const fetchYoutube = async () => {
 };
 
 export const fetchFlickr = async opt => {
+	const defaultOpt = { type: 'user', id: '199697926@N08' };
+	const opt = { ...defaultOpt, ...option };
 	const num = 50;
 	const flickr_api = process.env.REACT_APP_FLICKR_API;
 	const baseURL = `https://www.flickr.com/services/rest/?&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1&method=`;
