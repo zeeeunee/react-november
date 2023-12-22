@@ -23,7 +23,7 @@ export const fetchYoutube = async () => {
 	return json;
 };
 
-export const fetchFlickr = async opt => {
+export const fetchFlickr = async option => {
 	const defaultOpt = { type: 'user', id: '199697926@N08' };
 	const opt = { ...defaultOpt, ...option };
 	const num = 50;

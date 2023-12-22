@@ -8,12 +8,12 @@ export default function Department() {
 	const combinedTitle = useCustomText('combined');
 	const path = useRef(process.env.PUBLIC_URL); //public폴더까지의 경로를 구하는 구문
 
-	const { historyReducer, membersReducer } = useSelector(store => store);
-
-	const HistoryTit = Object.keys(historyReducer)[0];
-	const HistoryData = Object.values(historyReducer)[0];
-	const MemberTit = Object.keys(membersReducer)[0];
-	const MemberData = Object.values(membersReducer)[0];
+	const history = useSelector(store => store.historyReducer);
+	const members = useSelector(store => store.membersReducer);
+	const HistoryTit = Object.keys(history)[0];
+	const HistoryData = Object.values(history)[0];
+	const MemberTit = Object.keys(members)[0];
+	const MemberData = Object.values(members)[0];
 
 	return (
 		<Layout title={'Department'}>

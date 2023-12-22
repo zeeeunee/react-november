@@ -10,7 +10,7 @@ import Youtube from './components/sub/youtube/Youtube';
 import { Route } from 'react-router-dom';
 import './globalStyles/Variables.scss';
 import './globalStyles/Reset.scss';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useMedia } from './hooks/useMedia';
 import Menu from './components/common/menu/Menu';
 import Detail from './components/sub/youtube/Detail';
@@ -22,10 +22,11 @@ function App() {
 	const Dark = useSelector(store => store.darkReducer.dark);
 
 	useEffect(() => {
-		dispatch({ type: types.MEMBERS.start });
-		dispatch({ type: types.HISTORY.start });
-		dispatch({ type: types.YOUTUBE.start });
-		dispatch({ type: types.FLICKR.start });
+		// dispatch({ type: types.MEMBERS.start });
+		// dispatch({ type: types.HISTORY.start });
+		// dispatch({ type: types.YOUTUBE.start });
+		// dispatch({ type: types.FLICKR.start });
+		['MEMBERS', 'HISTORY', 'YOUTUBE', 'FLICKR'].forEach(typeName => dispatch({ type: types[typeName].start }));
 	}, [dispatch]);
 
 	return (
