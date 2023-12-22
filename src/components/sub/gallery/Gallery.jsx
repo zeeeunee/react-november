@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Gallery.scss';
 import Masonry from 'react-masonry-component';
@@ -25,6 +25,8 @@ export default function Gallery() {
 	const [Pics, setPics] = useState([]);
 	const [Open, setOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
+
+	const [Mounted, setMounted] = useState(true);
 
 	const activateBtn = e => {
 		const btns = refNav.current.querySelectorAll('button');
@@ -73,37 +75,41 @@ export default function Gallery() {
 	//검색함수가 한번이라도 실행되면 영구적으로 초기값을 true로 변경처리
 	searched.current = true;
 
-	const fetchFlickr = async opt => {
-		console.log('fetching again...');
-		const num = 100;
-		const flickr_api = process.env.REACT_APP_FLICKR_API;
-		const baseURL = `https://www.flickr.com/services/rest/?&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1&method=`;
-		const method_interest = 'flickr.interestingness.getList';
-		const method_user = 'flickr.people.getPhotos';
-		const method_search = 'flickr.photos.search';
+	const fetchFlickr = useCallback(
+		async opt => {
+			console.log('fetching again...');
+			const num = 100;
+			const flickr_api = process.env.REACT_APP_FLICKR_API;
+			const baseURL = `https://www.flickr.com/services/rest/?&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1&method=`;
+			const method_interest = 'flickr.interestingness.getList';
+			const method_user = 'flickr.people.getPhotos';
+			const method_search = 'flickr.photos.search';
 
-		const interestURL = `${baseURL}${method_interest}`;
+			const interestURL = `${baseURL}${method_interest}`;
 
-		//3- userURL에는 user_id를 상수값이 아닌 호출시점에 전달된 opt객체의 id로 등록해서 URL생성
-		const userURL = `${baseURL}${method_user}&user_id=${opt.id}`;
-		const searchURL = `${baseURL}${method_search}&tags=${opt.keyword}`;
+			//3- userURL에는 user_id를 상수값이 아닌 호출시점에 전달된 opt객체의 id로 등록해서 URL생성
+			const userURL = `${baseURL}${method_user}&user_id=${opt.id}`;
+			const searchURL = `${baseURL}${method_search}&tags=${opt.keyword}`;
 
-		let url = '';
+			let url = '';
 
-		//4- 만들어진 URL로 데이터요청
-		opt.type === 'user' && (url = userURL);
-		opt.type === 'interest' && (url = interestURL);
-		opt.type === 'search' && (url = searchURL);
+			//4- 만들어진 URL로 데이터요청
+			opt.type === 'user' && (url = userURL);
+			opt.type === 'interest' && (url = interestURL);
+			opt.type === 'search' && (url = searchURL);
 
-		const data = await fetch(url);
-		const json = await data.json();
+			const data = await fetch(url);
+			const json = await data.json();
 
-		// if (json.photos.photo.length === 0) {
-		// 	return alert('해당 검색어의 결과값이 없습니다.');
-		// }
+			// if (json.photos.photo.length === 0) {
+			// 	return alert('해당 검색어의 결과값이 없습니다.');
+			// }
 
-		setPics(json.photos.photo);
-	};
+			Mounted && setPics(json.photos.photo);
+		},
+		[Mounted]
+	);
+
 	const openModal = e => {
 		setOpen(true);
 	};
@@ -112,10 +118,11 @@ export default function Gallery() {
 		refFrameWrap.current.style.setProperty('--gap', gap.current + 'px');
 
 		//2-처음 컴포넌트 마운트시 타입을 user로 지정하고 id값으로 내 아이디등록
-		fetchFlickr({ type: 'user', id: myID.current });
-		//fetchFlickr({ type: 'interest' });
-		//fetchFlickr({ type: 'search', keyworld: 'landscape' });
-	}, []);
+		//fetchFlickr({ type: 'user', id: myID.current });
+		fetchFlickr({ type: 'interest' });
+
+		return () => setMounted(false);
+	}, [fetchFlickr]);
 
 	return (
 		<>
