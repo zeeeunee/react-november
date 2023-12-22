@@ -10,7 +10,6 @@ import * as types from '../../../redux/action';
 export default function Gallery() {
 	const dispatch = useDispatch();
 
-	console.log('re-render');
 	const myID = useRef('199697926@N08'); //1-참조객체에 내 아이디값 등록
 
 	const isUser = useRef(myID.current); //isUser의 초기값을 내 아이디 문자값으로 등록
@@ -77,7 +76,6 @@ export default function Gallery() {
 
 	const fetchFlickr = useCallback(
 		async opt => {
-			console.log('fetching again...');
 			const num = 100;
 			const flickr_api = process.env.REACT_APP_FLICKR_API;
 			const baseURL = `https://www.flickr.com/services/rest/?&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1&method=`;
@@ -118,8 +116,8 @@ export default function Gallery() {
 		refFrameWrap.current.style.setProperty('--gap', gap.current + 'px');
 
 		//2-처음 컴포넌트 마운트시 타입을 user로 지정하고 id값으로 내 아이디등록
-		//fetchFlickr({ type: 'user', id: myID.current });
-		fetchFlickr({ type: 'interest' });
+		fetchFlickr({ type: 'user', id: myID.current });
+		//fetchFlickr({ type: 'interest' });
 
 		return () => setMounted(false);
 	}, [fetchFlickr]);

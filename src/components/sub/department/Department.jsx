@@ -16,9 +16,12 @@ import { useSelector } from 'react-redux';
 
 export default function Department() {
 	const MemberData = useSelector(store => store.memberReducer.members);
+	console.log(MemberData);
 	const HistoryData = useSelector(store => store.historyReducer.history);
+	console.log(HistoryData);
 
 	const path = useRef(process.env.PUBLIC_URL); //public폴더까지의 경로를 구하는 구문
+
 	const changeTitle = useCustomText('title');
 
 	const combinedTitle = useCustomText('combined');
