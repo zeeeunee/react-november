@@ -4,23 +4,21 @@ import './Gallery.scss';
 import Masonry from 'react-masonry-component';
 import { IoSearch } from 'react-icons/io5';
 import Modal from '../../common/modal/Modal';
+import { useFlickrQuery } from '../../../hooks/useFlickrQuery';
 
 export default function Gallery() {
-	console.log('re-render');
-	const myID = useRef('199697926@N08'); //1-참조객체에 내 아이디값 등록
-
-	const isUser = useRef(myID.current); //isUser의 초기값을 내 아이디 문자값으로 등록
+	const myID = useRef('199697926@N08');
+	const isUser = useRef(myID.current);
 	const refNav = useRef(null);
 	const refFrameWrap = useRef(null);
-
 	const gap = useRef(20);
-
-	//검색함수가 실행됐는지를 확인하기 위한 참조객체
 	const searched = useRef(false);
 
-	const [Pics, setPics] = useState([]);
+	const [Opt, setOpt] = useState({ type: 'user', id: myID.current });
+
 	const [Open, setOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
+	const { data: Pics, isSuccess: isFlickr } = useFlickrQuery(Opt);
 
 	const activateBtn = e => {
 		const btns = refNav.current.querySelectorAll('button');
@@ -33,7 +31,7 @@ export default function Gallery() {
 		//Interest함수 호출시 isUser값을 빈문자열로 초기화 (false로 인식되는 값)
 		isUser.current = '';
 		activateBtn(e);
-		fetchFlickr({ type: 'interest' });
+		setOpt({ type: 'interest' });
 	};
 
 	const handleMine = e => {
@@ -43,7 +41,7 @@ export default function Gallery() {
 		if (e.target.classList.contains('on') || isUser.current === myID.current) return;
 		isUser.current = myID.current;
 		activateBtn(e);
-		fetchFlickr({ type: 'user', id: myID.current });
+		setOpt({ type: 'user', id: myID.current });
 	};
 
 	const handleUser = e => {
@@ -51,7 +49,7 @@ export default function Gallery() {
 		if (isUser.current) return;
 		isUser.current = e.target.innerText;
 		activateBtn();
-		fetchFlickr({ type: 'user', id: e.target.innerText });
+		setOpt({ type: 'user', id: e.target.innerText });
 	};
 
 	const handleSearch = e => {
@@ -63,43 +61,12 @@ export default function Gallery() {
 		const keyword = e.target.children[0].value;
 		if (!keyword.trim()) return;
 		e.target.children[0].value = '';
-		fetchFlickr({ type: 'search', keyword: keyword });
+		setOpt({ type: 'search', keyword: keyword });
 	};
 
 	//검색함수가 한번이라도 실행되면 영구적으로 초기값을 true로 변경처리
 	searched.current = true;
 
-	const fetchFlickr = async opt => {
-		console.log('fetching again...');
-		const num = 100;
-		const flickr_api = process.env.REACT_APP_FLICKR_API;
-		const baseURL = `https://www.flickr.com/services/rest/?&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1&method=`;
-		const method_interest = 'flickr.interestingness.getList';
-		const method_user = 'flickr.people.getPhotos';
-		const method_search = 'flickr.photos.search';
-
-		const interestURL = `${baseURL}${method_interest}`;
-
-		//3- userURL에는 user_id를 상수값이 아닌 호출시점에 전달된 opt객체의 id로 등록해서 URL생성
-		const userURL = `${baseURL}${method_user}&user_id=${opt.id}`;
-		const searchURL = `${baseURL}${method_search}&tags=${opt.keyword}`;
-
-		let url = '';
-
-		//4- 만들어진 URL로 데이터요청
-		opt.type === 'user' && (url = userURL);
-		opt.type === 'interest' && (url = interestURL);
-		opt.type === 'search' && (url = searchURL);
-
-		const data = await fetch(url);
-		const json = await data.json();
-
-		// if (json.photos.photo.length === 0) {
-		// 	return alert('해당 검색어의 결과값이 없습니다.');
-		// }
-
-		setPics(json.photos.photo);
-	};
 	const openModal = e => {
 		setOpen(true);
 	};
@@ -107,10 +74,7 @@ export default function Gallery() {
 	useEffect(() => {
 		refFrameWrap.current.style.setProperty('--gap', gap.current + 'px');
 
-		//2-처음 컴포넌트 마운트시 타입을 user로 지정하고 id값으로 내 아이디등록
-		fetchFlickr({ type: 'user', id: myID.current });
-		//fetchFlickr({ type: 'interest' });
-		//fetchFlickr({ type: 'search', keyworld: 'landscape' });
+		//fetchFlickr({ type: 'user', id: myID.current });
 	}, []);
 
 	return (
@@ -134,9 +98,10 @@ export default function Gallery() {
 					<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: gap.current }}>
 						{/* 3항 연산자로 배열에 받아지는 값이 없으면 경고문구 출력: 주의점: 3항연산자로 JSX를 분기처리시에는 괄호로 묶어줌 */}
 						{/* searched값이 true고 검색결과가 없는 2가지 조건이 동시에 만족해야지 에러메시지 출력 */}
-						{searched.current && Pics.length === 0 ? (
+						{isFlickr && searched.current && Pics.length === 0 ? (
 							<h2>해당 키워드에 대한 검색 결과가 없습니다.</h2>
 						) : (
+							isFlickr &&
 							Pics.map((pic, idx) => {
 								return (
 									<article key={pic.id}>
@@ -167,7 +132,7 @@ export default function Gallery() {
 			</Layout>
 			{Open && (
 				<Modal Open={Open} setOpen={setOpen}>
-					{Pics.length !== 0 && (
+					{isFlickr && Pics.length !== 0 && (
 						<img src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`} alt={Pics[Index].title} />
 					)}
 				</Modal>
