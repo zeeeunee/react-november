@@ -1,3 +1,4 @@
+import { useGlobalData } from '../../../hooks/useGlobalData';
 import './Modal.scss';
 import { AnimatePresence, motion } from 'framer-motion';
 //npm i framer-motion@4 설치
@@ -9,6 +10,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 //exit:사라질때의 상태값
 
 export default function Modal({ Open, setOpen, children }) {
+	const result = useGlobalData();
 	return (
 		<AnimatePresence>
 			{Open && (
@@ -17,15 +19,13 @@ export default function Modal({ Open, setOpen, children }) {
 					initial={{ opacity: 0, x: '-100%', scale: 0, rotate: -45 }}
 					animate={{ opacity: 1, x: '0%', scale: 1, rotate: 0 }}
 					exit={{ opacity: 0, y: '100%', scale: 2, rotate: 45, transition: { delay: 0.5 } }}
-					transition={{ duration: 1 }}
-				>
+					transition={{ duration: 1 }}>
 					<div
 						className='con'
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0, transition: { delay: 0 } }}
-						transition={{ duration: 0.5, delay: 1 }}
-					>
+						transition={{ duration: 0.5, delay: 1 }}>
 						{children}
 					</div>
 					<span onClick={() => setOpen(false)}>close</span>

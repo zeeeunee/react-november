@@ -18,7 +18,7 @@ export default function Gallery() {
 
 	const [Open, setOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
-	const { data: Pics, isSuccess: isFlickr } = useFlickrQuery(Opt);
+	const { data: Pics, isSuccess } = useFlickrQuery(Opt);
 
 	const activateBtn = e => {
 		const btns = refNav.current.querySelectorAll('button');
@@ -98,10 +98,10 @@ export default function Gallery() {
 					<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: gap.current }}>
 						{/* 3항 연산자로 배열에 받아지는 값이 없으면 경고문구 출력: 주의점: 3항연산자로 JSX를 분기처리시에는 괄호로 묶어줌 */}
 						{/* searched값이 true고 검색결과가 없는 2가지 조건이 동시에 만족해야지 에러메시지 출력 */}
-						{isFlickr && searched.current && Pics.length === 0 ? (
+						{isSuccess && searched.current && Pics.length === 0 ? (
 							<h2>해당 키워드에 대한 검색 결과가 없습니다.</h2>
 						) : (
-							isFlickr &&
+							isSuccess &&
 							Pics.map((pic, idx) => {
 								return (
 									<article key={pic.id}>
@@ -132,7 +132,7 @@ export default function Gallery() {
 			</Layout>
 			{Open && (
 				<Modal Open={Open} setOpen={setOpen}>
-					{isFlickr && Pics.length !== 0 && (
+					{isSuccess && Pics.length !== 0 && (
 						<img src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`} alt={Pics[Index].title} />
 					)}
 				</Modal>
