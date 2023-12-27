@@ -9,11 +9,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 //animate:모션이 일어날때의 상태값
 //exit:사라질때의 상태값
 
-export default function Modal({ Open, setOpen, children }) {
-	const result = useGlobalData();
+export default function Modal({ children }) {
+	const { ModalOpen, setModalOpen } = useGlobalData();
 	return (
 		<AnimatePresence>
-			{Open && (
+			{ModalOpen && (
 				<motion.aside
 					className='Modal'
 					initial={{ opacity: 0, x: '-100%', scale: 0, rotate: -45 }}
@@ -28,7 +28,7 @@ export default function Modal({ Open, setOpen, children }) {
 						transition={{ duration: 0.5, delay: 1 }}>
 						{children}
 					</div>
-					<span onClick={() => setOpen(false)}>close</span>
+					<span onClick={() => setModalOpen(false)}>close</span>
 				</motion.aside>
 			)}
 		</AnimatePresence>
