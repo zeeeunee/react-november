@@ -21,12 +21,13 @@ import CookieModal from './components/common/cookieModal/CookieModal';
 
 function App() {
 	const queryClient = new QueryClient();
-	const { Dark } = useGlobalData();
+	const { Mode } = useGlobalData();
+
 	useCookie('today', 'done', 20);
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<div className={`wrap ${Dark ? 'dark' : ''} ${useMedia()}`}>
+			<div className={`wrap ${Mode === 'light' ? 'light' : 'dark'} ${useMedia()}`}>
 				<Header />
 				<Route exact path='/' component={MainWrap} />
 				<Route path='/department' component={Department} />
