@@ -10,17 +10,18 @@ import Youtube from './components/sub/youtube/Youtube';
 import { Route } from 'react-router-dom';
 import './globalStyles/Variables.scss';
 import './globalStyles/Reset.scss';
-
 import { useMedia } from './hooks/useMedia';
 import Menu from './components/common/menu/Menu';
 import Detail from './components/sub/youtube/Detail';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useGlobalData } from './hooks/useGlobalData';
+import { useCookie } from './hooks/useCookie';
 
 function App() {
 	const queryClient = new QueryClient();
 	const { Dark } = useGlobalData();
+	useCookie('today', 'done', 20);
 
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -28,7 +29,6 @@ function App() {
 				<Header />
 				<Route exact path='/' component={MainWrap} />
 				<Route path='/department' component={Department} />
-
 				<Route path='/gallery' component={Gallery} />
 				<Route path='/community' component={Community} />
 				<Route path='/members' component={Members} />
