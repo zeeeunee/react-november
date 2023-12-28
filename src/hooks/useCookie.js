@@ -19,4 +19,8 @@ export function useCookie(name, value, time) {
 	let duedate = now.getTime() + 1000 * time; //지금으로부터 time초뒤의 만료시간값
 	now.setTime(duedate); //시간객체값을 위의 생성한 만료시간값으로 변경
 	document.cookie = `${name}=${value}; path=/; expires=${now.toUTCString()}`; //한국시로 구한 만료시간값을 전세계 표준시로 변환해서 쿠키값을 만료시간값으로 설정
+	//path값 경로의 url에서만 쿠키가 생성됨
+	//client side rendering방식의 리액트에서는 해당 경로로 라우터 이동하더라도 서버쪽에서 해당URL요청이 들어간 것이 아니기 때문에 쿠키 생성이 안됨
+	//해당 URL경로에서 새로고침을 해야지 그때 쿠키가 생성됨
+	//가급적 리액트에서는 쿠키생성 경로 path=/ 로 지정함
 }
