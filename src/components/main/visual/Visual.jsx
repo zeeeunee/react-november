@@ -1,10 +1,12 @@
 import './Visual.scss';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { useCustomText } from '../../../hooks/useText';
 
 function Btns() {
 	//Swiper컴포넌트 안쪽에 있는 또다른 자식 컴포넌트 안쪽에서만 useSwiper hook사용가능
@@ -12,6 +14,7 @@ function Btns() {
 	const swiper = useSwiper();
 
 	useEffect(() => {
+		swiper.init(0);
 		swiper.slideNext(300);
 	}, [swiper]); //강제로 처음패널로 보이게 만들기
 
@@ -32,6 +35,7 @@ function Btns() {
 
 export default function Visual() {
 	const { youtube } = useSelector(store => store.youtubeReducer);
+	const shortenText = useCustomText('shorten');
 	return (
 		<figure className='Visual'>
 			<Swiper
@@ -47,14 +51,19 @@ export default function Visual() {
 					disableOnInteraction: true
 				}}
 				loop={true}>
-				{youtube.map((vid, idx) => {
+				{youtube?.map((vid, idx) => {
 					if (idx >= 5) return null;
 					return (
 						<SwiperSlide key={vid.id}>
 							<div className='inner'>
-								<h3>
-									{idx + 1} {vid.snippet.title}
-								</h3>
+								<div className='picBox'>
+									<img src={vid.snippet.thumbnails.standard.url} alt={vid.snippet.title} />
+									<img src={vid.snippet.thumbnails.standard.url} alt={vid.snippet.title} />
+								</div>
+								<div className='txtBox'>
+									<h2>{shortenText(vid.snippet.title, 50)}</h2>
+									<Link to={`/detail/${vid.id}`}>View Detail</Link>
+								</div>
 							</div>
 						</SwiperSlide>
 					);

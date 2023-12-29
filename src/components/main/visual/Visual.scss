@@ -12,22 +12,50 @@
 				> .inner {
 					width: 70%;
 					height: 100%;
-					background-color: var(--pointColor);
 					margin: 0 auto;
 					display: flex;
-					justify-content: center;
+					justify-content: space-between;
 					flex-wrap: wrap;
 					align-content: center;
-					color: var(--bgColor);
+
+					.picBox {
+						width: 40%;
+						height: 100%;
+						position: relative;
+						display: flex;
+
+						img {
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+							position: absolute;
+							top: 0;
+							left: 0;
+
+							&:nth-of-type(1) {
+								top: 30px;
+								left: 30px;
+								filter: blur(20px) saturate(1.2);
+								opacity: 0.7;
+							}
+						}
+					}
+					.txtBox {
+						width: 50%;
+						height: 100%;
+
+						h2 {
+							font-size: 4rem;
+							font-weight: normal;
+						}
+					}
 				}
 			}
 		}
-
 		.swiper-pagination {
 			width: 70%;
 			left: 15%;
 			bottom: 40px;
-
 			span {
 				display: inline-block;
 				width: 10px;
@@ -41,7 +69,6 @@
 				transition-property: width, background-color;
 				transition-duration: 0.5s;
 			}
-
 			span.swiper-pagination-bullet-active {
 				width: 60px;
 				background-color: var(--pointColor);
