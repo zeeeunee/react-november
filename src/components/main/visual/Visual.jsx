@@ -47,7 +47,7 @@ export default function Visual() {
 					}
 				}}
 				autoplay={{
-					delay: 2000,
+					delay: 4000,
 					disableOnInteraction: true
 				}}
 				loop={true}>

@@ -1,0 +1,70 @@
+.Pics {
+	width: 100%;
+	height: 100vh;
+	background: #fff;
+	position: relative;
+	padding: 100px;
+	display: flex;
+	justify-content: center;
+	gap: 50px;
+	align-items: center;
+
+	.box {
+		width: 300px;
+		height: 300px;
+		position: relative;
+		border: 1px solid #333;
+	}
+	.box1 {
+		&::before,
+		&::after,
+		span {
+			content: '';
+			width: 100px;
+			height: 1px;
+			background-color: #333;
+			position: absolute;
+			top: 50%;
+			right: 50px;
+			transform-origin: right center;
+			opacity: 0;
+			transition-property: opacity, transform;
+			transition-duration: 0.5s;
+		}
+		&::before {
+			transform: rotate(145deg);
+			transition-delay: 0.8s; //첫번째동작
+		}
+		&::after {
+			transform: rotate(-145deg);
+			transition-delay: 0.3s; //두번째동작
+		}
+		span {
+			width: 0px;
+			transition-property: opacity, width;
+			transition-duration: 0.5s;
+			transition-delay: 0s; //세번째동작
+		}
+	}
+}
+.box1:hover {
+	&::before,
+	&::after,
+	span {
+		opacity: 1;
+	}
+	&::before {
+		transform: rotate(45deg);
+		transition-delay: 0s; //세번째동작
+	}
+	&::after {
+		transform: rotate(-45deg);
+		transition-delay: 0.3s; //두번째동작
+	}
+	span {
+		width: 150px;
+		transition-delay: 0.8s; //첫번째동작
+	}
+}
+
+//호버인과 호버아웃의 딜레이값은 생각한 delay값과 반대로 입력
