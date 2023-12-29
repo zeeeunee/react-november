@@ -100,7 +100,7 @@ export default function Community() {
 					</nav>
 				</div>
 				<div className='showBox'>
-					{Post.map((el, idx) => {
+					{Post?.map((el, idx) => {
 						const date = JSON.stringify(el.date);
 						const strDate = changeText(date.split('T')[0].slice(1), '.');
 						if (el.enableUpdate) {

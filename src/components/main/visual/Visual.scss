@@ -38,12 +38,20 @@
 				color: var(--bgColor);
 				text-indent: -9999px;
 				cursor: pointer;
-				transition: width 0.5s, background-color 0.5s;
+				transition-property: width, background-color;
+				transition-duration: 0.5s;
 			}
 
 			span.swiper-pagination-bullet-active {
 				width: 60px;
+				background-color: var(--pointColor);
 			}
+		}
+		.swiperController {
+			position: absolute;
+			bottom: 50px;
+			right: 100px;
+			z-index: 4;
 		}
 	}
 }
