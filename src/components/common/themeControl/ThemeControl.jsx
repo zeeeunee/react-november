@@ -1,6 +1,7 @@
 import './ThemeControl.scss';
 import { useCookie } from '../../../hooks/useCookie';
 import { useCallback, useEffect, useRef } from 'react';
+import { useThrottle } from '../../../hooks/useThrottle';
 
 export default function ThemeControl() {
 	const inputEl = useRef(null);
@@ -27,6 +28,8 @@ export default function ThemeControl() {
 		inputEl.current.value = color;
 	};
 
+	const throttledChangeTheme = useThrottle(changeThemeColor, 300);
+
 	//초기 마운트시에 컬러테마 쿠키값 유무에 따라 변수값 처리
 	useEffect(() => {
 		getThemeColor();
@@ -34,7 +37,7 @@ export default function ThemeControl() {
 
 	return (
 		<nav className='ThemeControl'>
-			<input type='color' ref={inputEl} onChange={changeThemeColor} />
+			<input type='color' ref={inputEl} onChange={throttledChangeTheme} />
 		</nav>
 	);
 }
