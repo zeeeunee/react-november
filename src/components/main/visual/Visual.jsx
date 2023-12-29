@@ -57,8 +57,12 @@ export default function Visual() {
 						<SwiperSlide key={vid.id}>
 							<div className='inner'>
 								<div className='picBox'>
-									<img src={vid.snippet.thumbnails.standard.url} alt={vid.snippet.title} />
-									<img src={vid.snippet.thumbnails.standard.url} alt={vid.snippet.title} />
+									<p>
+										<img src={vid.snippet.thumbnails.standard.url} alt={vid.snippet.title} />
+									</p>
+									<p>
+										<img src={vid.snippet.thumbnails.standard.url} alt={vid.snippet.title} />
+									</p>
 								</div>
 								<div className='txtBox'>
 									<h2>{shortenText(vid.snippet.title, 50)}</h2>
