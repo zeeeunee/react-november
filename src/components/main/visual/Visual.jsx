@@ -66,7 +66,9 @@ export default function Visual() {
 								</div>
 								<div className='txtBox'>
 									<h2>{shortenText(vid.snippet.title, 50)}</h2>
-									<Link to={`/detail/${vid.id}`}>View Detail</Link>
+									<Link to={`/detail/${vid.id}`}>
+										<span></span>View Detail
+									</Link>
 								</div>
 							</div>
 						</SwiperSlide>
