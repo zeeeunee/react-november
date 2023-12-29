@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const useDebounce = (value, gap = 500) => {
 	const [Mounted, setMounted] = useState(true);
