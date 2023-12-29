@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 
 export const useDebounce = (value, gap = 500) => {
+	const [Mounted, setMounted] = useState(true);
+
 	const [DebouncedVal, setDebouncedVal] = useState(value);
 	const eventBlocker = useRef(null); //setTimeout의 리턴값을 받을 참조객체
 
@@ -11,8 +13,12 @@ export const useDebounce = (value, gap = 500) => {
 	//만약 0.5초안에 다시 value로 전달된 state가 전달되면 setTimeout의 리턴값을 초기화
 	//setTimeout의 리턴값을 clearTimeout으로 초기화 시키기 (지연시간 0.5초를 무시하고 다시 처음부터 0.5초 기다리도록 초기화)
 	eventBlocker.current = setTimeout(() => {
-		setDebouncedVal(value);
+		Mounted && setDebouncedVal(value); // 2. Mounted값이 true일때만 담김
 	}, gap);
+
+	useEffect(() => {
+		return () => setMounted(false); // 1. 강제로 false처리
+	}, []);
 
 	return DebouncedVal;
 };
