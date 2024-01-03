@@ -49,3 +49,9 @@ export default function Visual() {
 		</figure>
 	);
 }
+
+/*
+swiper의 props를 통해서 UI 구조가 변경되면 해당 내용은 스크립트를 통해서 동적제어 되고 있기 때문에 일반 css로 반응형처리 불가
+-breakpoints를 이용해서 브라우저 폭에 따라서 swiper의 option값 변경 
+-초기값으로 모바일 버전 옵션설정하고 breakpoinst로 브라우저가 늘어나는 구간마다 옵션값 변경
+*/
