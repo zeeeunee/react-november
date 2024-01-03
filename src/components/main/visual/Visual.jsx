@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import './Visual.scss';
 import { useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper';
 import 'swiper/css';
 
 export default function Visual() {
@@ -28,6 +29,9 @@ export default function Visual() {
 							<div className='inner'>
 								<div className='picBox'>
 									<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
+								</div>
+								<div className='txtBox'>
+									<h2>{data.snippet.title}</h2>
 								</div>
 							</div>
 						</SwiperSlide>
