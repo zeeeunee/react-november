@@ -11,13 +11,16 @@ export default function Visual() {
 		slidesPerView: 1,
 		spaceBetween: 0,
 		centeredSlides: true,
+		onSwiper: swiper => {
+			swiper.slideNext(300);
+		},
 		breakpoints: {
 			1000: {
-				sliderPerView: 2,
+				slidesPerView: 2,
 				spaceBetween: 50
 			},
 			1400: {
-				sliderPerView: 3,
+				slidesPerView: 3,
 				spaceBetween: 50
 			}
 		}
