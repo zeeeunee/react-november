@@ -2,11 +2,14 @@ import { useYoutubeQuery } from '../../../hooks/useYoutubeQuery';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './Visual.scss';
 import 'swiper/css';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 export default function Visual() {
 	const { isSuccess, data } = useYoutubeQuery();
 	const [Index, setIndex] = useState(0);
-	console.log(Index);
+	const [PrevIndex, setPrevIndex] = useState(4);
+	const [NextIndex, setNextIndex] = useState(1);
+	const num = useRef(5);
+
 	const swiperOpt = useRef({
 		loop: true,
 		slidesPerView: 1,
@@ -20,6 +23,11 @@ export default function Visual() {
 			1400: { slidesPerView: 3 }
 		}
 	});
+
+	useEffect(() => {
+		Index === 0 ? setPrevIndex(num.current - 1) : setPrevIndex(Index - 1);
+		Index === num.current - 1 ? setNextIndex(0) : setNextIndex(Index + 1);
+	}, [Index]);
 
 	return (
 		<figure className='Visual'>
@@ -40,7 +48,7 @@ export default function Visual() {
 			<Swiper {...swiperOpt.current}>
 				{isSuccess &&
 					data.map((el, idx) => {
-						if (idx >= 5) return null;
+						if (idx >= num.current) return null;
 						return (
 							<SwiperSlide key={el.id}>
 								<div className='pic'>
@@ -55,6 +63,19 @@ export default function Visual() {
 						);
 					})}
 			</Swiper>
+
+			<nav className='preview'>
+				{isSuccess && (
+					<>
+						<p className='prevBox'>
+							<img src={data[PrevIndex].snippet.thumbnails.default.url} alt={data[PrevIndex].snippet.title} />
+						</p>
+						<p className='nextBox'>
+							<img src={data[NextIndex].snippet.thumbnails.default.url} alt={data[NextIndex].snippet.title} />
+						</p>
+					</>
+				)}
+			</nav>
 		</figure>
 	);
 }
