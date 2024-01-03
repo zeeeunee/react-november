@@ -64,7 +64,7 @@
 			.swiper-slide-active {
 				> .inner {
 					opacity: 1;
-					transform: scale(1) rotateY(0deg);
+					transform: scale(1) rotateY(0deg) translateY(0px);
 
 					.txtBox {
 						opacity: 1;
@@ -77,7 +77,7 @@
 			.swiper-slide-prev {
 				> .inner {
 					opacity: 0.7;
-					transform: scale(0.7) rotateY(30deg);
+					transform: scale(0.7) rotateY(30deg) translateY(300px);
 				}
 			}
 
@@ -85,7 +85,7 @@
 			.swiper-slide-next {
 				> .inner {
 					opacity: 0.7;
-					transform: scale(0.7) rotateY(-30deg);
+					transform: scale(0.7) rotateY(-30deg) translateY(-300px);
 				}
 			}
 		}

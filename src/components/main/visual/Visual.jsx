@@ -10,7 +10,6 @@ export default function Visual() {
 	const swiperOpt = useRef({
 		modules: [Autoplay],
 		autoplay: { delay: 4000, disableOnInteraction: true },
-		spaceBetween: 70,
 		loop: true,
 		slidesPerView: 3,
 		centeredSlides: true, //가운데 배치된 패널이 활성화
