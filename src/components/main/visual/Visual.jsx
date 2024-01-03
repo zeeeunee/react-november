@@ -14,6 +14,7 @@ export default function Visual() {
 		slidesPerView: 1,
 		centeredSlides: true, //가운데 배치된 패널이 활성화
 		breakpoints: {
+			//반응형에 따라 설정한 수의 패널 보이게
 			1000: { slidesPerView: 3 }
 		},
 		onSwiper: swiper => {
