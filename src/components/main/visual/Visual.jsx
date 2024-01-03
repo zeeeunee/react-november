@@ -7,10 +7,15 @@ import 'swiper/css';
 export default function Visual() {
 	const Vids = useSelector(store => store.youtube.data);
 	const swiperOpt = useRef({
-		spaceBetween: 50,
+		modules: [Autoplay],
+		autoplay: { delay: 4000, disableOnInteraction: true },
+		spaceBetween: 70,
 		loop: true,
 		slidesPerView: 3,
-		centeredSlides: true
+		centeredSlides: true, //가운데 배치된 패널이 활성화
+		onSwiper: swiper => {
+			swiper.slideNext(300); //처음 롤링했을때 왼쪽 빈 패널이 없게 한번 롤링시켜줌
+		}
 	});
 
 	return (
