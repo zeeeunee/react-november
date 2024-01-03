@@ -75,7 +75,8 @@ function Btns({ swiperRef }) {
 	//Btns컴포넌트에서 인스턴스의 이벤트문을 활용해서
 	useEffect(() => {
 		//slide가 바뀔때마다 현재 롤링유무에 따라 Rolling state값 변경
-		swiperRef.current.on('slideChange', () => {
+		swiperRef.current.on('click', () => {
+			//이벤트를 click으로 바꾸면 state값이 변경이 안됨
 			swiperRef.current.autoplay.running ? setRolling(true) : setRolling(false);
 		});
 	}, [swiperRef]);
