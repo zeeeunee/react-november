@@ -1,13 +1,19 @@
+import { useRef } from 'react';
 import './Visual.scss';
 import { useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 export default function Visual() {
 	const Vids = useSelector(store => store.youtube.data);
+	const swiperOpt = useRef({
+		spaceBetween: 50,
+		loop: true,
+		slidesPerView: 3
+	});
 
 	return (
 		<figure className='Visual'>
-			<Swiper>
+			<Swiper {...swiperOpt}>
 				{Vids.map((data, idx) => {
 					if (idx >= 5) return null;
 					return (
