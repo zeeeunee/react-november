@@ -6,12 +6,15 @@ import { useRef, useState } from 'react';
 
 export default function Visual() {
 	const { isSuccess, data } = useYoutubeQuery();
+	const [Index, setIndex] = useState(0);
+
 	const swiperOpt = useRef({
 		loop: true,
 		slidesPerView: 1,
 		spaceBetween: 50,
 		centeredSlides: true,
 		onSwiper: swiper => swiper.slideNext(300),
+		onSlideChange: swiper => setIndex(swiper.realIndlex),
 		breakpoints: {
 			1000: { slidesPerView: 2 },
 			1400: { slidesPerView: 3 }
