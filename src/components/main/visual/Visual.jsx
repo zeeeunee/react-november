@@ -25,6 +25,7 @@ export default function Visual() {
 
 	return (
 		<figure className='Visual'>
+			<div className='txtBox'></div>
 			<Swiper {...swiperOpt.current}>
 				{isSuccess &&
 					data.map((el, idx) => {
