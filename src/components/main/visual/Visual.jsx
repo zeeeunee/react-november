@@ -25,6 +25,7 @@ export default function Visual() {
 		<figure className='Visual'>
 			{/* <Swiper modules={[Pagination, Autoplay]} pagination={pagination.current} autoplay={autoplay.current} loop={true}> */}
 			<Swiper {...swiperOption.current}>
+				{/* 빈 객체라서 전개연산자(...)써야 한다궁..? */}
 				{youtube.map((vid, idx) => {
 					if (idx >= 5) return null;
 
@@ -72,3 +73,13 @@ function Btns({ swiperRef }) {
 		</nav>
 	);
 }
+
+//중요 정리 내용
+//1. swiper컴포넌트의 기본 사용법
+//2. useSwiper 라는 전용 hook을 이용해서 swiper인스턴스를 생성하기 위해서는 swiper안쪽에 또다른 자식 컴포넌트를 호출한 뒤 해당컴포넌트에 인스턴스 복사
+//3. 부모컴포넌트에서 자식 컴포넌트에서 생성된 인스턴스 객체를 활용하기 위해서 빈 참조 객체를 만든 뒤 자식 컴포넌트에 전달해서 역으로 인스턴스값을 자식 컴포넌트로부터 참조객체로 전달 받음
+//4. swiper컴포넌트 안쪽에 지저분한 props들은 컴포넌트 외부에 객체로 만들어서 전개연산자로 연결가능
+
+//JSX를 커스텀해서 만드는 리액트 전용 매서드
+//React.createElement('태그명',{...props}.children)
+//React.createElement('p',{className:'abc'},'text') -> <p className='abc'>text</p>
