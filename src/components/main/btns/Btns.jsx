@@ -12,10 +12,10 @@ export default function Btns() {
 	const secs = useRef(null);
 	const wrap = useRef(null);
 	useEffect(() => {
-		wrap.current = document.querySelector('wrap');
+		wrap.current = document.querySelector('.wrap');
 		secs.current = document.querySelectorAll('.myScroll');
 
-		wrap.current.addEventListener('scroll', () => {
+		wrap.current.addEventListener('scroll', e => {
 			console.log('scroll', e.target.scrollTop);
 			console.log('offset', secs.current[1].offsetTop);
 		});
