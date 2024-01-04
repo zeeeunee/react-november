@@ -13,6 +13,7 @@ export default class Anime {
 		this.duration = this.defOpt.duration;
 		this.callback = this.defOpt.callback;
 		this.easeType = this.defOpt.easeType;
+		this.ease = this.defOpt.ease; //option으로 받은 ease값이 있으면 인스턴스 객체에 넘김
 		this.startTime = performance.now();
 		this.isBg = null;
 		this.keys.forEach((key, idx) => {
@@ -82,7 +83,14 @@ export default class Anime {
 			ease2: [0, 1.82, 0.94, -0.73]
 		};
 
-		Object.keys(easingPresets).map(key => this.easeType === key && (easingProgress = BezierEasing(...easingPresets[key])(progress)));
+		//인스턴스 호출시 ease로 넘긴 배열값이 있으면 해당 값을 활용
+		if (this.ease) {
+			easingProgress = BezierEasing(...this.ease)(progress);
+			//그렇지 않으면 기존 easeType값을 활용
+		} else {
+			Object.keys(easingPresets).map(key => this.easeType === key && (easingProgress = BezierEasing(...easingPresets[key])(progress)));
+		}
+
 		return [
 			progress,
 			this.isBg

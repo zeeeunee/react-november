@@ -60,7 +60,17 @@ export default function Btns() {
 							key={idx}
 							className={idx === Index ? 'on' : ''}
 							onClick={() => {
-								new Anime(wrap.current, { scroll: secs.current[idx].offsetTop }, { duration: 500 });
+								//new Anime(선택자, {속성명1:속성값1 , 속성명2:속성값2}, {duration:속도, easeType:가속도, callback:컴플릭함수})
+								new Anime(
+									wrap.current,
+									{ scroll: secs.current[idx].offsetTop },
+									{
+										ease: [0.43, -1.06, 0.69, 1.72],
+										callback: () => {
+											console.log('complete');
+										}
+									}
+								);
 							}}></li>
 					);
 				})}
