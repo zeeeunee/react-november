@@ -1,28 +1,43 @@
 import { useYoutubeQuery } from '../../../hooks/useYoutubeQuery';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper';
 import './Visual.scss';
 import 'swiper/css';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
+
 export default function Visual() {
-	const { isSuccess, data } = useYoutubeQuery();
-	const [Index, setIndex] = useState(0);
-	const [PrevIndex, setPrevIndex] = useState(4);
-	const [NextIndex, setNextIndex] = useState(1);
 	const num = useRef(5);
+	const { isSuccess, data } = useYoutubeQuery();
+
+	//loop값이 true시 초기 Index값을 0,1을 주면 안됨
+	//onSwipe 이벤트 발생시 자동적으로 realIndex값이 기존 Index값에 1을 뺀값으로 적용되므로
+	//useEffect에 의해서 prevIndex값이 0혹은 마지막 순번으로 변경되므로 기존 realIndex값과 중첩되서 버그발생
+	const [PrevIndex, setPrevIndex] = useState(1);
+	const [Index, setIndex] = useState(2);
+	const [NextIndex, setNextIndex] = useState(3);
 
 	const swiperOpt = useRef({
+		modules: [Autoplay],
 		loop: true,
 		slidesPerView: 1,
 		spaceBetween: 50,
 		centeredSlides: true,
-		onSwiper: swiper => swiper.slideNext(300),
-		//loop:true (swiper.realIndex), loop:false(swiper.activeIndex)
+		onSwiper: swiper => console.log(swiper.realIndex),
 		onSlideChange: swiper => setIndex(swiper.realIndex),
+		autoplay: { delay: 2000, disableOnInteraction: true },
 		breakpoints: {
 			1000: { slidesPerView: 2 },
 			1400: { slidesPerView: 3 }
 		}
 	});
+
+	const trimTitle = title => {
+		let resultTit = '';
+		if (title.includes('(')) resultTit = title.split('(')[0];
+		else if (title.includes('[')) resultTit = title.split('[')[0];
+		else resultTit = title;
+		return resultTit;
+	}; // 괄호같은 지저분한 글자 자르는 함수
 
 	useEffect(() => {
 		Index === 0 ? setPrevIndex(num.current - 1) : setPrevIndex(Index - 1);
@@ -36,10 +51,9 @@ export default function Visual() {
 					{isSuccess &&
 						data.map((el, idx) => {
 							if (idx >= 5) return null;
-
 							return (
 								<li key={el.id} className={idx === Index ? 'on' : ''}>
-									<h3>{el.snippet.title}</h3>
+									<h3>{trimTitle(el.snippet.title)}</h3>
 								</li>
 							);
 						})}
@@ -63,7 +77,6 @@ export default function Visual() {
 						);
 					})}
 			</Swiper>
-
 			<nav className='preview'>
 				{isSuccess && (
 					<>
