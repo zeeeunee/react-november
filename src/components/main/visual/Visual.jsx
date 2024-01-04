@@ -4,18 +4,14 @@ import { Autoplay } from 'swiper';
 import './Visual.scss';
 import 'swiper/css';
 import { useRef, useState } from 'react';
-
 export default function Visual() {
-	const num = useRef(5);
+	const num = useRef(8);
 	const swipeRef = useRef(null);
 	const { isSuccess, data } = useYoutubeQuery();
 
-	//loop값이 true시 초기 Index값을 0,1을 주면 안됨
-	//onSwipe 이벤트 발생시 자동적으로 realIndex값이 기존 Index값에 1을 뺀값으로 적용되므로
-	//useEffect에 의해서 prevIndex값이 0혹은 마지막 순번으로 변경되므로 기존 realIndex값과 중첩되서 버그발생
-	const [PrevIndex, setPrevIndex] = useState(1);
-	const [Index, setIndex] = useState(2);
-	const [NextIndex, setNextIndex] = useState(3);
+	const [PrevIndex, setPrevIndex] = useState(0);
+	const [Index, setIndex] = useState(0);
+	const [NextIndex, setNextIndex] = useState(0);
 
 	const swiperOpt = useRef({
 		modules: [Autoplay],
@@ -23,7 +19,10 @@ export default function Visual() {
 		slidesPerView: 1,
 		spaceBetween: 50,
 		centeredSlides: true,
-		onSwiper: swiper => (swipeRef.current = swiper),
+		loopedSlides: num.current, //loop모드일때 실제동작될 슬라이드 갯수 지정하면 초기순번 어그러지는 무제 해결 가능
+		onSwiper: swiper => {
+			swipeRef.current = swiper;
+		},
 		onSlideChange: swiper => {
 			setIndex(swiper.realIndex);
 			swiper.realIndex === 0 ? setPrevIndex(num.current - 1) : setPrevIndex(swiper.realIndex - 1);
@@ -35,15 +34,13 @@ export default function Visual() {
 			1400: { slidesPerView: 3 }
 		}
 	});
-
 	const trimTitle = title => {
 		let resultTit = '';
 		if (title.includes('(')) resultTit = title.split('(')[0];
 		else if (title.includes('[')) resultTit = title.split('[')[0];
 		else resultTit = title;
 		return resultTit;
-	}; // 유튜브 제목 가져왔을때 괄호같은 지저분한 글자 자르는 함수
-
+	};
 	return (
 		<figure className='Visual'>
 			<div className='barFrame'>
