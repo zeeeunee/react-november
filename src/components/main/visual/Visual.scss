@@ -115,6 +115,8 @@
 			overflow: hidden;
 			position: absolute;
 			bottom: 5vh;
+			cursor: pointer;
+			z-index: 6;
 
 			img {
 				width: 100%;

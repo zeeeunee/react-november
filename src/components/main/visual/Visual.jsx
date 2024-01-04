@@ -7,6 +7,7 @@ import { useRef, useState, useEffect } from 'react';
 
 export default function Visual() {
 	const num = useRef(5);
+	const swipeRef = useRef(null);
 	const { isSuccess, data } = useYoutubeQuery();
 
 	//loop값이 true시 초기 Index값을 0,1을 주면 안됨
@@ -22,7 +23,7 @@ export default function Visual() {
 		slidesPerView: 1,
 		spaceBetween: 50,
 		centeredSlides: true,
-		onSwiper: swiper => console.log(swiper.realIndex),
+		onSwiper: swiper => (swipeRef.current = swiper),
 		onSlideChange: swiper => setIndex(swiper.realIndex),
 		autoplay: { delay: 2000, disableOnInteraction: true },
 		breakpoints: {
@@ -80,10 +81,10 @@ export default function Visual() {
 			<nav className='preview'>
 				{isSuccess && (
 					<>
-						<p className='prevBox'>
+						<p className='prevBox' onClick={() => swipeRef.current.slidePrev(400)}>
 							<img src={data[PrevIndex].snippet.thumbnails.default.url} alt={data[PrevIndex].snippet.title} />
 						</p>
-						<p className='nextBox'>
+						<p className='nextBox' onClick={() => swipeRef.current.slideNext(400)}>
 							<img src={data[NextIndex].snippet.thumbnails.default.url} alt={data[NextIndex].snippet.title} />
 						</p>
 					</>
