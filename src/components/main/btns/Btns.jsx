@@ -78,6 +78,7 @@ export default function Btns() {
 		[Num]
 	);
 
+	//화면 리사이즈시 스크롤 위치값 보정처리
 	const modifyPos = () => {
 		console.log('modify');
 		const btnsArr = Array.from(btns.current.children);
@@ -88,7 +89,7 @@ export default function Btns() {
 
 	const throttledActivation = useThrottle(activation);
 	//스크롤 되는 횟수 줄이기
-	const throttledModifyPos = useThrottle(modifyPos, 200);
+	const throttledModifyPos = useThrottle(modifyPos, 200); //gap=200
 
 	useEffect(() => {
 		wrap.current = document.querySelector('.wrap');
