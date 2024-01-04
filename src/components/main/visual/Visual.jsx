@@ -45,7 +45,7 @@ export default function Visual() {
 	}; // 유튜브 제목 가져왔을때 괄호같은 지저분한 글자 자르는 함수
 
 	return (
-		<figure className='Visual'>
+		<figure className='Visual myScroll'>
 			<div className='txtBox'>
 				<ul>
 					{isSuccess &&
