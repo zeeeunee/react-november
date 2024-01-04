@@ -44,12 +44,16 @@ export default function Btns() {
     */
 	};
 
+	const moveScroll = idx => {
+		new Anime(wrap.current, { scroll: secs.current[idx].offsetTop }, { duration: 500 });
+	};
+
 	const throttledActivation = useThrottle(activation);
 	//스크롤 되는 횟수 줄이기
 
 	useEffect(() => {
 		wrap.current = document.querySelector('.wrap');
-		secs.current = document.querySelectorAll('.myScroll');
+		secs.current = wrap.current.querySelectorAll('.myScroll');
 		setNum(secs.current.length);
 
 		wrap.current.addEventListener('scroll', throttledActivation);
@@ -66,8 +70,7 @@ export default function Btns() {
 							key={idx}
 							className={idx === 0 ? 'on' : ''}
 							onClick={() => {
-								//new Anime(선택자, {속성명1:속성값1 , 속성명2:속성값2}, {duration:속도, easeType:가속도, callback:컴플릭함수})
-								new Anime(wrap.current, { scroll: secs.current[idx].offsetTop }, { duration: 1000 });
+								moveScroll(idx);
 							}}></li>
 					);
 				})}
