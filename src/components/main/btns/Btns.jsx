@@ -1,3 +1,4 @@
+import Anime from '../../../asset/anime';
 import { useEffect, useRef, useState } from 'react';
 import './Btns.scss';
 
@@ -47,13 +48,21 @@ export default function Btns() {
 		setNum(secs.current.length);
 
 		wrap.current.addEventListener('scroll', activation);
+		return () => wrap.current.removeEventListener('scroll', activation);
 	}, []);
 	return (
 		<ul className='Btns' ref={btns}>
 			{Array(Num)
 				.fill()
 				.map((_, idx) => {
-					return <li key={idx} className={idx === Index ? 'on' : ''} onClick={() => setIndex(idx)}></li>;
+					return (
+						<li
+							key={idx}
+							className={idx === Index ? 'on' : ''}
+							onClick={() => {
+								new Anime(wrap.current, { scroll: secs.current[idx].offsetTop }, { duration: 500 });
+							}}></li>
+					);
 				})}
 		</ul>
 	);
