@@ -45,12 +45,18 @@ export default function Visual() {
 	}; // 유튜브 제목 가져왔을때 괄호같은 지저분한 글자 자르는 함수
 
 	return (
-		<figure className='Visual myScroll'>
+		<figure className='Visual'>
+			<div className='barFrame'>
+				<p className='bar' style={{ width: (100 / num.current) * (Index + 1) + '%' }}></p>
+			</div>
+			<div className='counter'>
+				<strong>0{Index + 1}</strong>/<span>0{num.current}</span>
+			</div>
 			<div className='txtBox'>
 				<ul>
 					{isSuccess &&
 						data.map((el, idx) => {
-							if (idx >= 5) return null;
+							if (idx >= num.current) return null;
 							return (
 								<li key={el.id} className={idx === Index ? 'on' : ''}>
 									<h3>{trimTitle(el.snippet.title)}</h3>

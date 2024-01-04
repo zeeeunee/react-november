@@ -7,7 +7,7 @@ import DarkMode from '../darkMode/DarkMode';
 export default function Header() {
 	const { MenuOpen, setMenuOpen, Dark, setDark } = useGlobalData();
 	return (
-		<header className='Header'>
+		<header className='Header myScroll'>
 			<h1>
 				<Link to='/'>ZEEEUNEE</Link>
 			</h1>
