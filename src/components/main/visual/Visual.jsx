@@ -38,7 +38,7 @@ export default function Visual() {
 		else if (title.includes('[')) resultTit = title.split('[')[0];
 		else resultTit = title;
 		return resultTit;
-	}; // 괄호같은 지저분한 글자 자르는 함수
+	}; // 유튜브 제목 가져왔을때 괄호같은 지저분한 글자 자르는 함수
 
 	useEffect(() => {
 		Index === 0 ? setPrevIndex(num.current - 1) : setPrevIndex(Index - 1);
