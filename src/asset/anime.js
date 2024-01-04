@@ -5,7 +5,6 @@ export default class Anime {
 
 	//인스턴스 생성시 옵션값 전달 및 속성값 보정함수 반복 호출
 	constructor(selector, props, opt) {
-		console.log(selector);
 		this.selector = selector;
 		this.defOpt = { ...this.#defOpt, ...opt };
 		this.keys = Object.keys(props);

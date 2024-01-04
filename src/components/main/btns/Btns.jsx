@@ -15,7 +15,6 @@ export default function Btns() {
 	const baseLine = useRef(-window.innerHeight / 2); //현재 섹션의 컨텐츠가 절반이상 보여야지 스크롤 활성화 처리
 
 	const activation = () => {
-		console.log(activation);
 		const scroll = wrap.current.scrollTop;
 
 		secs.current.forEach((sec, idx) => {
@@ -48,6 +47,24 @@ export default function Btns() {
 		new Anime(wrap.current, { scroll: secs.current[idx].offsetTop }, { duration: 500 });
 	};
 
+	const autoScroll = e => {
+		const btnsArr = Array.from(btns.current.children);
+		const activeEl = btns.current.querySelector('li.on');
+		//현재 활성화된 버튼의 순번구함
+		const activeIndex = btnsArr.indexOf(activeEl);
+
+		//휠 다운시
+		if (e.deltaY > 0) {
+			console.log('wheel down');
+			//현재순번이 마지막순번이 아니면 다음순번 섹션위치로 모션이동
+			activeIndex !== Num - 1 && moveScroll(activeIndex + 1);
+		} else {
+			//휠 업시
+			console.log('wheel up');
+			//현재순번이 첫번째순번이 아니면 이전순번 섹션 위치로 모션이동
+			activeIndex !== 0 && moveScroll(activeIndex - 1);
+		}
+	};
 	const throttledActivation = useThrottle(activation);
 	//스크롤 되는 횟수 줄이기
 
@@ -56,8 +73,12 @@ export default function Btns() {
 		secs.current = wrap.current.querySelectorAll('.myScroll');
 		setNum(secs.current.length);
 
+		wrap.current.addEventListener('mousewheel', autoScroll);
 		wrap.current.addEventListener('scroll', throttledActivation);
-		return () => wrap.current.removeEventListener('scroll', throttledActivation);
+		return () => {
+			wrap.current.removeEventListener('scroll', throttledActivation);
+			wrap.current.removeEventListener('mousewheel', autoScroll);
+		};
 	}, [throttledActivation]);
 
 	return (
