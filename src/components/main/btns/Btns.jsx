@@ -101,12 +101,6 @@ export default function Btns(opt) {
 	//스크롤 되는 횟수 줄이기
 	const throttledModifyPos = useThrottle(modifyPos, 200); //gap=200 (1초에 5번호출되게)
 
-	//컴포넌트가 언마운트시 한번만 동작되어야 되기 때문에
-	//의존성배열이 비어있는 useEffect안쪽의 클린업함수에서 Mounted값 변경
-	useEffect(() => {
-		return () => setMounted(false);
-	}, []);
-
 	useEffect(() => {
 		wrap.current = document.querySelector(resultOpt.current.frame);
 		secs.current = wrap.current.querySelectorAll(resultOpt.current.items);
