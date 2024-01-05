@@ -20,8 +20,15 @@ export default function Btns(opt) {
 	const isMotion = useRef(false); //isMotion.current값이 true면 모션중이므로 재실행방지, false면 모션중이 아니므로 재실행가능
 	const isAutoScroll = useRef(resultOpt.current.isAuto); //false면 autoScroll 작동안함 (개발자가 autoScroll기능을 할건지말건지 정하는거)
 
+	//activation에서 null요소의 값을 읽을 수 없다는 오류 뜨는 이유 (throttle과는 무관)
+	//아래 함수는 scroll이 동작될때마다 실행되는 함수
 	const activation = () => {
 		const scroll = wrap.current.scrollTop;
+
+		//내부적으로 scroll시 모든 section요소와 , btns요소를 탐색해서 가져와야 됨
+		//스크롤하자마자 바로 라우터 이동을 하면 모든 section요소를 참조객체에 담기기 전에 컴포넌트가 언마운트 됨
+		//컴포넌트 언마운트 시 비어있는 참조객체를 호출하려고 하기 때문에 에러 발생
+		//컴포넌트가 언마운트되면 return문으로 참조객체활용구문자체를 무시
 		if (!Mounted) return;
 		secs.current.forEach((sec, idx) => {
 			if (scroll >= secs.current[idx].offsetTop + baseLine.current) {
