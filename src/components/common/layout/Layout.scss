@@ -3,8 +3,8 @@
 	margin: 100px auto;
 	min-height: 60vh;
 	opacity: 0;
-	transform: translateY(200px);
-	transition: opacity 1s, transform 1s;
+	top: 200px;
+	transition: opacity 1s, top 1s;
 	position: relative;
 	h1 {
 		font-size: 0;
@@ -40,10 +40,25 @@
 		opacity: 0.7;
 		margin-bottom: 150px;
 	}
+	.btnTop {
+		cursor: pointer;
+		width: 50px;
+		height: 50px;
+		background: var(--baseColor);
+		color: var(--bgColor);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: none;
+		position: fixed;
+		bottom: 50px;
+		right: 50px;
+		z-index: 6;
+	}
 
 	&.on {
 		opacity: 1;
-		transform: translateY(0px);
+		top: 0px;
 		h1 {
 			span {
 				opacity: 1;
