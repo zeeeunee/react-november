@@ -11,6 +11,8 @@ export default function Btns(opt) {
 	const defOpt = useRef({ frame: '.wrap', items: '.myScroll', base: -window.innerHeight / 2, isAuto: false });
 	const resultOpt = useRef({ ...defOpt.current, ...opt });
 	const [Num, setNum] = useState(0);
+	const [Mounted, setMounted] = useState(true);
+	//useThrottle이미 컴포넌트 안쪽에 이미 import가 된상태이고 부모컴포넌트에 호출하기 때문에 useThrottle안쪽이 아닌 호출되는 부모컴포넌트 안쪽에서 Mounted 설정해야됨
 	const secs = useRef(null);
 	const wrap = useRef(null);
 	const btns = useRef(null);
@@ -20,7 +22,7 @@ export default function Btns(opt) {
 
 	const activation = () => {
 		const scroll = wrap.current.scrollTop;
-
+		if (!Mounted) return;
 		secs.current.forEach((sec, idx) => {
 			if (scroll >= secs.current[idx].offsetTop + baseLine.current) {
 				Array.from(btns.current.children).forEach(btn => btn.classList.remove('on'));
@@ -102,6 +104,7 @@ export default function Btns(opt) {
 		wrap.current.addEventListener('scroll', throttledActivation);
 		isAutoScroll.current && wrap.current.addEventListener('mousewheel', autoScroll);
 		return () => {
+			setMounted(false);
 			window.removeEventListener('resize', throttledModifyPos);
 			wrap.current.removeEventListener('scroll', throttledActivation);
 			wrap.current.removeEventListener('mousewheel', autoScroll);
