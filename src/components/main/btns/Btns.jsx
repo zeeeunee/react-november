@@ -7,14 +7,16 @@ import { useThrottle } from '../../../hooks/useThrottle';
 //DOM.scrollTop : DOM요소안쪽에서 스크롤할때마다 스크롤되고 있는 거리값 (동적)
 //DOM.offsetTop : 문서에서 해당 돔요소의 세로 위치값 (정적)
 
-export default function Btns() {
+export default function Btns(opt) {
+	const defOpt = useRef({ frame: '.wrap', items: '.myScroll', base: -window.innerHeight / 2, isAuto: false });
+	const resultOpt = useRef({ ...defOpt.current, ...opt });
 	const [Num, setNum] = useState(0);
 	const secs = useRef(null);
 	const wrap = useRef(null);
 	const btns = useRef(null);
-	const baseLine = useRef(-window.innerHeight / 2); //현재 섹션의 컨텐츠가 절반이상 보여야지 스크롤 활성화 처리
+	const baseLine = useRef(resultOpt.current.base); //현재 섹션의 컨텐츠가 절반이상 보여야지 스크롤 활성화 처리
 	const isMotion = useRef(false); //isMotion.current값이 true면 모션중이므로 재실행방지, false면 모션중이 아니므로 재실행가능
-	const isAutoScroll = useRef(false); //false면 autoScroll 작동안함 (개발자가 autoScroll기능을 할건지말건지 정하는거)
+	const isAutoScroll = useRef(resultOpt.current.isAuto); //false면 autoScroll 작동안함 (개발자가 autoScroll기능을 할건지말건지 정하는거)
 
 	const activation = () => {
 		const scroll = wrap.current.scrollTop;
@@ -89,11 +91,11 @@ export default function Btns() {
 
 	const throttledActivation = useThrottle(activation);
 	//스크롤 되는 횟수 줄이기
-	const throttledModifyPos = useThrottle(modifyPos, 200); //gap=200
+	const throttledModifyPos = useThrottle(modifyPos, 200); //gap=200 (1초에 5번호출되게)
 
 	useEffect(() => {
-		wrap.current = document.querySelector('.wrap');
-		secs.current = wrap.current.querySelectorAll('.myScroll');
+		wrap.current = document.querySelector(resultOpt.current.frame);
+		secs.current = wrap.current.querySelectorAll(resultOpt.current.items);
 		setNum(secs.current.length);
 
 		window.addEventListener('resize', throttledModifyPos);
@@ -104,7 +106,7 @@ export default function Btns() {
 			wrap.current.removeEventListener('scroll', throttledActivation);
 			wrap.current.removeEventListener('mousewheel', autoScroll);
 		};
-	}, [throttledActivation, autoScroll, throttledModifyPos]);
+	}, [throttledActivation, autoScroll, throttledModifyPos, resultOpt.current.frame, resultOpt.current.items]);
 
 	return (
 		<ul className='Btns' ref={btns}>
