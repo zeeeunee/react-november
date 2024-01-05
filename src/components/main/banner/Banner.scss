@@ -4,4 +4,13 @@
 	background: orange;
 	position: relative;
 	padding: 10vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.box {
+		width: 500px;
+		height: 500px;
+		background: #fff;
+	}
 }
