@@ -11,8 +11,7 @@ export default function Btns(opt) {
 	const defOpt = useRef({ frame: '.wrap', items: '.myScroll', base: -window.innerHeight / 2, isAuto: false });
 	const resultOpt = useRef({ ...defOpt.current, ...opt });
 	const [Num, setNum] = useState(0);
-	const [Mounted, setMounted] = useState(true);
-	//useThrottle이미 컴포넌트 안쪽에 이미 import가 된상태이고 부모컴포넌트에 호출하기 때문에 useThrottle안쪽이 아닌 호출되는 부모컴포넌트 안쪽에서 Mounted 설정해야됨
+
 	const secs = useRef(null);
 	const wrap = useRef(null);
 	const btns = useRef(null);
@@ -20,22 +19,22 @@ export default function Btns(opt) {
 	const isMotion = useRef(false); //isMotion.current값이 true면 모션중이므로 재실행방지, false면 모션중이 아니므로 재실행가능
 	const isAutoScroll = useRef(resultOpt.current.isAuto); //false면 autoScroll 작동안함 (개발자가 autoScroll기능을 할건지말건지 정하는거)
 
-	//activation에서 null요소의 값을 읽을 수 없다는 오류 뜨는 이유 (throttle과는 무관)
-	//아래 함수는 scroll이 동작될때마다 실행되는 함수
 	const activation = () => {
-		const scroll = wrap.current.scrollTop;
+		const scroll = wrap.current?.scrollTop;
 
-		//내부적으로 scroll시 모든 section요소와 , btns요소를 탐색해서 가져와야 됨
-		//스크롤하자마자 바로 라우터 이동을 하면 모든 section요소를 참조객체에 담기기 전에 컴포넌트가 언마운트 됨
-		//컴포넌트 언마운트 시 비어있는 참조객체를 호출하려고 하기 때문에 에러 발생
-		//컴포넌트가 언마운트되면 return문으로 참조객체활용구문자체를 무시
-		if (!Mounted) return;
-		secs.current.forEach((sec, idx) => {
+		secs.current.forEach((_, idx) => {
 			if (scroll >= secs.current[idx].offsetTop + baseLine.current) {
-				Array.from(btns.current.children).forEach(btn => btn.classList.remove('on'));
-				btns.current.children[idx].classList.add('on');
+				//아래 구문에서 children이 아닌 querySelectorAll을 써야 되는 이유
+				//children(HTMLCollections반환 LiveDOM) vs querySelectorAll(NodeList반환, Static DOM)
+				//버튼 li요소를 Btns컴포넌트 마운트시 동적으로 생성하기 때문에
+				//만약 컴포넌트 unmounted시 querySelector로 찾은 NodeList는 optionial chaining 처리가능하나
+				//children으로 구한 HTMLCollection은 실시간으로 DOM의 상태값을 추적하기 떄문에 optional chaining처리 불가
+				const btnsArr = btns.current?.querySelectorAll('li');
+				btnsArr?.forEach(btn => btn.classList.remove('on'));
+				btns.current?.querySelectorAll('li')[idx]?.classList.add('on');
 			}
 		});
+
 		/*
 		if (scroll >= secs.current[0].offsetTop) {
 			Array.from(btns.current.children).forEach(btn => btn.classList.remove('on'));
