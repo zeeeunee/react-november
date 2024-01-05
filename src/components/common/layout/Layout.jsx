@@ -8,27 +8,22 @@ export default function Layout({ children, title }) {
 	const refBtnTop = useRef(null);
 	const splitText = useSplitText();
 	const { scrollTo, getCurrentScroll, scrollFrame } = useScroll();
-
 	const handleScroll = useCallback(
 		num => {
 			getCurrentScroll() >= num ? refBtnTop.current?.classList.add('on') : refBtnTop.current?.classList.remove('on');
 		},
 		[getCurrentScroll]
 	);
-
 	useEffect(() => {
 		scrollTo(0);
 		splitText(refTitle.current, title, 0.7, 0.1);
 		setTimeout(() => {
 			refFrame.current?.classList.add('on');
 		}, 300);
-		scrollFrame.current.addEventListener('scroll', () => {
-			console.log(getCurrentScroll());
-		});
 	}, [splitText, title, scrollTo]);
 
 	useEffect(() => {
-		scrollFrame.current.addEventListener('scroll', () => handleScroll(300));
+		scrollFrame?.addEventListener('scroll', () => handleScroll(300));
 	}, [getCurrentScroll, handleScroll, scrollFrame]);
 
 	return (
