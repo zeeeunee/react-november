@@ -7,7 +7,9 @@ export default function Layout({ children, title }) {
 	const refTitle = useRef(null);
 	const refBtnTop = useRef(null);
 	const splitText = useSplitText();
+
 	const { scrollTo, getCurrentScroll, scrollFrame } = useScroll();
+
 	const handleScroll = useCallback(
 		num => {
 			getCurrentScroll() >= num ? refBtnTop.current?.classList.add('on') : refBtnTop.current?.classList.remove('on');
