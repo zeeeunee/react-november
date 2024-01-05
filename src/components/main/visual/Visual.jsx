@@ -5,7 +5,7 @@ import './Visual.scss';
 import 'swiper/css';
 import { useRef, useState } from 'react';
 export default function Visual() {
-	const num = useRef(8);
+	const num = useRef(5);
 	const swipeRef = useRef(null);
 	const { isSuccess, data } = useYoutubeQuery();
 
@@ -19,7 +19,7 @@ export default function Visual() {
 		slidesPerView: 1,
 		spaceBetween: 50,
 		centeredSlides: true,
-		loopedSlides: num.current, //loop모드일때 실제동작될 슬라이드 갯수 지정하면 초기순번 어그러지는 무제 해결 가능
+		loopedSlides: num.current, //loop모드일때 실제동작될 슬라이드 갯수 지정하면 초기순번 어그러지는 문제 해결 가능
 		onSwiper: swiper => {
 			swipeRef.current = swiper;
 		},
@@ -43,12 +43,6 @@ export default function Visual() {
 	};
 	return (
 		<figure className='Visual'>
-			<div className='barFrame'>
-				<p className='bar' style={{ width: (100 / num.current) * (Index + 1) + '%' }}></p>
-			</div>
-			<div className='counter'>
-				<strong>0{Index + 1}</strong>/<span>0{num.current}</span>
-			</div>
 			<div className='txtBox'>
 				<ul>
 					{isSuccess &&
@@ -92,6 +86,21 @@ export default function Visual() {
 					</>
 				)}
 			</nav>
+			<ul className='pagination'>
+				{Array(num.current)
+					.fill()
+					.map((_, idx) => {
+						return <li key={idx} className={idx === Index ? 'on' : ''} onClick={() => swipeRef.current.slideToLoop(idx, 400)}></li>;
+					})}
+			</ul>
+
+			<div className='barFrame'>
+				<p className='bar' style={{ width: (100 / num.current) * (Index + 1) + '%' }}></p>
+			</div>
+
+			<div className='counter'>
+				<strong>0{Index + 1}</strong>/<span>0{num.current}</span>
+			</div>
 		</figure>
 	);
 }
