@@ -1,13 +1,12 @@
-import './Banner.scss';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useScroll } from '../../../hooks/useScroll';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import './Banner.scss';
 
 export default function Banner() {
-	const [Frame, setFrame] = useState(null);
 	const refBanner = useRef(null);
 	const boxEl = useRef(null);
 
-	const { getCurrentScroll } = useScroll(Frame);
+	const { getCurrentScroll, Frame } = useScroll();
 
 	const handleScroll = useCallback(() => {
 		const scroll = getCurrentScroll(refBanner.current, -window.innerHeight / 2);
@@ -18,14 +17,9 @@ export default function Banner() {
 	}, [getCurrentScroll]);
 
 	useEffect(() => {
-		setFrame(refBanner.current?.closest('.wrap'));
-	}, []);
-
-	useEffect(() => {
 		Frame?.addEventListener('scroll', handleScroll);
 		return () => Frame?.removeEventListener('scroll', handleScroll);
 	}, [Frame, handleScroll]);
-
 	return (
 		<section className='Banner myScroll' ref={refBanner}>
 			<div className='box' ref={boxEl}></div>
