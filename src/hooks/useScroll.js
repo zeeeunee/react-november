@@ -17,7 +17,7 @@ export function useScroll(customHandler, baseLine = -window.innerHeight / 2) {
 
 	const handleScroll = useCallback(() => {
 		const scroll = getCurrentScroll();
-		if (scroll >= 0) customHandler(scroll);
+		customHandler(scroll);
 	}, [getCurrentScroll, customHandler]);
 
 	useEffect(() => {
