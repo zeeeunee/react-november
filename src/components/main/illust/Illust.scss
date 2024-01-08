@@ -20,12 +20,6 @@
 			stroke-width: 2;
 			stroke-dasharray: 1510; //1510이라는 숫자는 가시영역에서의 path전체길이
 			stroke-dashoffset: 1510; //가시영역에서 선이 시작되는 기준점을 전체길이만큼 비가시영역으로 보내서 가시영역에서 빈공간이 보이도록 초기값 설정
-			transition: stroke-dashoffset 1s;
-
-			&:hover {
-				//호버시 기준점을 0으로 변경하면 오른쪽 비가시영역에 있던 선이 가시영역으로 들어오면서 마치 선이 그어지는 것 같은 모션효과연출
-				stroke-dashoffset: 0;
-			}
 		}
 	}
 }
